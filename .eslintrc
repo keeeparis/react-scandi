@@ -1,0 +1,21 @@
+{
+  "parser": "@babel/eslint-parser",
+  "extends": ["eslint:recommended", "airbnb", "prettier"],
+  "plugins": ["prettier", "@typescript-eslint/eslint-plugin"],
+  "rules": {
+    "prettier/prettier": ["error", { "endOfLine": "auto" }],
+    "no-tabs": "error",
+    "react/function-component-definition": ["off"],
+    "react/jsx-filename-extension": [0, { "allow": "as-needed" }],
+    "import/extensions": ["error", "never"],
+    "no-console": "off"
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      },
+      "typescript": {}
+    }
+  }
+}
