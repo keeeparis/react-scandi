@@ -5,9 +5,13 @@ const initialState = {}
 export const cartSlice = createSlice({
   name: 'cart',
   initialState,
-  reducers: {},
+  reducers: {
+    increment() {
+      console.log('first')
+    },
+  },
 })
 
-export const {} = cartSlice.actions
+export const { increment } = cartSlice.actions
 
 export default cartSlice.reducer

@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
 
-const Cart = () => {
-  return <div>Cart</div>
+export class Cart extends PureComponent {
+  render() {
+    return <div>Cart</div>
+  }
 }
 
 export default Cart

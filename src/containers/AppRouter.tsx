@@ -1,58 +1,27 @@
-import React, { useEffect, useState } from 'react'
-import { Query, Field, client } from '@tilework/opus'
+import React, { PureComponent } from 'react'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
-client.setEndpoint('http://localhost:4000/')
+import Layout from './Layout'
+import App from '../pages/App'
+import Cart from '../pages/Cart'
+import Product from '../pages/Product'
 
-const AppRouter = () => {
-  const [categoryList, setCategoryList] = useState<any>()
-  const [data, setData] = useState<any>([])
+// client.setEndpoint('http://localhost:4000/')
 
-  const categoriesQuery = new Query('categories', true).addField(
-    new Field('name')
-  )
-
-  const handleDataRequest = (input: string) => async () => {
-    const newQuery = new Query('category')
-      .addArgument('input', 'CategoryInput', {
-        title: input,
-      })
-      .addField(new Field('products', true).addField('name'))
-
-    const {
-      category: { products },
-    } = await client.post(newQuery)
-
-    setData(products)
+export class AppRouter extends PureComponent {
+  render() {
+    return (
+      <Router>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<App />} />
+            <Route path="product/:id" element={<Product />} />
+            <Route path="cart" element={<Cart />} />
+          </Route>
+        </Routes>
+      </Router>
+    )
   }
-
-  useEffect(() => {
-    const fetch = async () => {
-      const { categories } = await client.post(categoriesQuery)
-      setCategoryList(categories)
-    }
-    fetch()
-  }, [])
-
-  return (
-    <div>
-      {categoryList &&
-        categoryList.map((el: any) => <div key={el.name}>{el.name}</div>)}
-      <div>
-        <button type="button" onClick={handleDataRequest('all')}>
-          Все
-        </button>
-        <button type="button" onClick={handleDataRequest('clothes')}>
-          Вещи
-        </button>
-        <button type="button" onClick={handleDataRequest('tech')}>
-          Гаджеты
-        </button>
-        {data.length
-          ? data.map((el: any) => <div key={el.name}>{el.name}</div>)
-          : null}
-      </div>
-    </div>
-  )
 }
 
 export default AppRouter
