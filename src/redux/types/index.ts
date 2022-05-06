@@ -26,6 +26,8 @@ export interface Attribute {
   value: string
   id: string
 }
+/* TODO: */
+export type a = (keyof Attribute)[]
 
 export interface AttributeSet {
   id: string
@@ -33,6 +35,8 @@ export interface AttributeSet {
   type: string
   items: Attribute[]
 }
+/* TODO: */
+export type b = (keyof AttributeSet)[]
 
 export interface Product {
   id: string
@@ -45,6 +49,8 @@ export interface Product {
   prices: DeepReadonlyArray<Price>
   brand: string
 }
+/* TODO: */
+export type c = (keyof Product)[]
 
 export interface ProductsType {
   products: DeepReadonlyArray<Product>

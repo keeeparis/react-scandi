@@ -37,6 +37,12 @@
         "no-undef": "off"
       },
       "files": "src/redux/store/store.ts"
+    },
+    {
+      "rules": {
+        "class-methods-use-this": "off"
+      },
+      "files": "src/API/fetchingAPI.ts"
     }
   ]
 }

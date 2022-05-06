@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { client, Field, Query } from '@tilework/opus'
+import { client } from '@tilework/opus'
+import FetchingAPI from '../../API/fetchingAPI'
 import { CategoryType, ProductsType } from '../types'
 
 const initialState: ProductsType = {
@@ -13,46 +14,10 @@ export const fetchProducts = createAsyncThunk<
   ProductsType['products'],
   null,
   { state: { categories: CategoryType } }
->('fetch/products', async (arg, thunkAPI) => {
-  /* TODO: вынести в отдельный модудь АПИ */
+>('fetch/products', async (_arg, thunkAPI) => {
   const currentCategory = thunkAPI.getState().categories.current_category.name
-  const productFields = [
-    'name',
-    'id',
-    'inStock',
-    'gallery',
-    'description',
-    'category',
-    'brand',
-  ] as const
-  const attributesFields = ['id', 'name', 'type'] as const
-  const attributeFields = ['id', 'value', 'displayValue'] as const
 
-  const productsQuery = new Query('category')
-    .addArgument('input', 'CategoryInput', {
-      title: currentCategory,
-    })
-    .addField(
-      new Field('products', true)
-        .addFieldList(productFields)
-        .addField(
-          new Field('attributes', true)
-            .addFieldList(attributesFields)
-            .addField(new Field('items', true).addFieldList(attributeFields))
-        )
-        .addField(
-          new Field('prices', true)
-            .addField('amount')
-            .addField(
-              new Field('currency').addField('label').addField('symbol')
-            )
-        )
-    )
-
-  const {
-    category: { products },
-  } = await client.post(productsQuery)
-
+  const products = FetchingAPI.fetchProducts(currentCategory)
   return products
 })
 
@@ -62,11 +27,11 @@ export const productsSlice = createSlice({
   reducers: {},
   extraReducers: (builder) =>
     builder
-      .addCase(fetchProducts.pending, (state, action) => {
+      .addCase(fetchProducts.pending, (state) => {
         state.status = 'pending'
         state.products = []
       })
-      .addCase(fetchProducts.rejected, (state, action) => {
+      .addCase(fetchProducts.rejected, (state) => {
         state.status = 'failed'
       })
       .addCase(fetchProducts.fulfilled, (state, action) => {

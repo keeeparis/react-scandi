@@ -34,11 +34,10 @@ export class Navigation extends PureComponent<NavigationProps, unknown> {
     e: React.KeyboardEvent<HTMLDivElement>
   ) {
     const { updateCategory, currentCategory } = this.props
-    // TODO: change same to different
-    const isSameCategory = currentCategory.name !== newCategory.name
+    const isDifferentCategory = currentCategory.name !== newCategory.name
     const isSpaceOrEnterPressed = e.code === 'Enter' || e.code === 'Space'
 
-    if (isSameCategory && isSpaceOrEnterPressed) {
+    if (isDifferentCategory && isSpaceOrEnterPressed) {
       updateCategory(newCategory)
     }
   }
@@ -48,7 +47,7 @@ export class Navigation extends PureComponent<NavigationProps, unknown> {
     return (
       <div className={styles.Container}>
         <div className={styles.LeftSide}>
-          {/* Может быть вынести в отдельный компонент */}
+          {/* TODO: Может быть вынести в отдельный компонент */}
           {categories.map((category) => (
             <div
               className={cn(styles.CategoryItem, {
