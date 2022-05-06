@@ -1,9 +1,9 @@
-import React, { PureComponent, Component } from 'react'
+import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import ProductItem from '../../containers/ProductItem'
 import { fetchProducts } from '../../redux/slices/productsSlice'
 import { AppDispatch, RootState } from '../../redux/store/store'
-import { CategoryType, Product, ProductsType } from '../../redux/types'
+import { CategoryType, ProductsType } from '../../redux/types'
 import styles from './App.module.scss'
 
 interface AppProps {

@@ -1,14 +1,12 @@
+import cn from 'classnames'
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
-import cn from 'classnames'
-
 import {
   fetchCategories,
   updateCurrentCategory,
 } from '../../redux/slices/categoriesSlice'
 import { AppDispatch, RootState } from '../../redux/store/store'
 import { Category, CategoryType } from '../../redux/types'
-
 import styles from './Navigation.module.scss'
 
 interface NavigationProps {
@@ -36,6 +34,7 @@ export class Navigation extends PureComponent<NavigationProps, unknown> {
     e: React.KeyboardEvent<HTMLDivElement>
   ) {
     const { updateCategory, currentCategory } = this.props
+    // TODO: change same to different
     const isSameCategory = currentCategory.name !== newCategory.name
     const isSpaceOrEnterPressed = e.code === 'Enter' || e.code === 'Space'
 
@@ -49,6 +48,7 @@ export class Navigation extends PureComponent<NavigationProps, unknown> {
     return (
       <div className={styles.Container}>
         <div className={styles.LeftSide}>
+          {/* Может быть вынести в отдельный компонент */}
           {categories.map((category) => (
             <div
               className={cn(styles.CategoryItem, {

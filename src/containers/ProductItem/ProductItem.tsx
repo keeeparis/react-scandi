@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react'
 import { Product } from '../../redux/types'
-
 import styles from './ProductItem.module.scss'
 
 interface Props {
