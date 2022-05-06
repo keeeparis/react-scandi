@@ -9,13 +9,19 @@
 
 .LeftSide {
   display: flex;
-  gap: 32px;
   text-transform: uppercase;
   align-self: flex-end;
 }
 
 .CategoryItem {
   height: 56px;
+  padding-inline: 16px;
+  cursor: pointer;
+}
+
+.active {
+  color: var(--c-primary);
+  border-bottom: 2px solid var(--c-primary);
 }
 
 .Center {
@@ -24,6 +30,7 @@
   height: 41px;
   background-repeat: no-repeat;
   background-size: contain;
+  cursor: default;
 }
 
 .RightSide {

@@ -6,8 +6,6 @@ import App from '../pages/App'
 import Cart from '../pages/Cart'
 import Product from '../pages/Product'
 
-// client.setEndpoint('http://localhost:4000/')
-
 export class AppRouter extends PureComponent {
   render() {
     return (

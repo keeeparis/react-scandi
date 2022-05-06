@@ -1,0 +1,11 @@
+.Title {
+  text-transform: capitalize;
+  font-size: 42px;
+}
+
+.Products {
+  margin-top: 100px;
+  display: grid;
+  grid-template-columns: repeat(3, 386px);
+  gap: 40px;
+}
