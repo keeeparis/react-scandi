@@ -1,3 +1,5 @@
+@use '../../styles/mixins';
+
 .Container {
   display: grid;
   grid-template-columns: 1fr 40px 1fr;
@@ -5,6 +7,7 @@
   position: sticky;
   align-items: center;
   font-weight: 400;
+  @include mixins.margin-inline;
 }
 
 .LeftSide {
@@ -35,4 +38,10 @@
 
 .RightSide {
   justify-self: end;
+}
+
+.Currencies {
+  display: flex;
+  gap: 24px;
+  cursor: pointer;
 }

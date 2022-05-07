@@ -1,12 +1,14 @@
 import { DeepReadonlyArray } from '@tilework/opus'
 
+export type Status = 'idle' | 'pending' | 'failed' | 'success'
+
 export interface Category {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   name: any // type unknown comes from server response
 }
 
 export interface CategoryType {
-  status: string
+  status: Status
   categories: DeepReadonlyArray<Category>
   current_category: Category // | null
 }
@@ -15,6 +17,8 @@ export interface Currency {
   label: string
   symbol: string
 }
+
+export type CurrencyKeys = (keyof Currency)[]
 
 export interface Price {
   currency: Currency
@@ -26,8 +30,8 @@ export interface Attribute {
   value: string
   id: string
 }
-/* TODO: */
-export type a = (keyof Attribute)[]
+
+export type AttributeKeys = (keyof Attribute)[]
 
 export interface AttributeSet {
   id: string
@@ -35,8 +39,8 @@ export interface AttributeSet {
   type: string
   items: Attribute[]
 }
-/* TODO: */
-export type b = (keyof AttributeSet)[]
+
+export type AttributeSetKeys = (keyof AttributeSet)[]
 
 export interface Product {
   id: string
@@ -49,10 +53,16 @@ export interface Product {
   prices: DeepReadonlyArray<Price>
   brand: string
 }
-/* TODO: */
-export type c = (keyof Product)[]
+
+export type ProductKeys = (keyof Product)[]
 
 export interface ProductsType {
   products: DeepReadonlyArray<Product>
-  status: string
+  status: Status
+}
+
+export interface BaseSliceType {
+  currencies: DeepReadonlyArray<Currency>
+  currentCurrency: Currency
+  status: Status
 }

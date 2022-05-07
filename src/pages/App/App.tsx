@@ -1,15 +1,18 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
+import Error from '../../components/Error'
+import Spinner from '../../components/Spinner'
 import ProductItem from '../../containers/ProductItem'
 import { fetchProducts } from '../../redux/slices/productsSlice'
 import { AppDispatch, RootState } from '../../redux/store/store'
-import { CategoryType, ProductsType } from '../../redux/types'
+import { CategoryType, ProductsType, Status } from '../../redux/types'
 import styles from './App.module.scss'
 
 interface AppProps {
   fetchProductList: () => void
   category: CategoryType['current_category']
   products: ProductsType['products']
+  status: Status
 }
 
 export class App extends PureComponent<AppProps, unknown> {
@@ -25,17 +28,21 @@ export class App extends PureComponent<AppProps, unknown> {
   }
 
   render() {
-    const { products, category } = this.props
+    const { products, category, status } = this.props
 
     return (
-      <div>
+      <div className={styles.Container}>
         <div className={styles.Title}>{category.name}</div>
 
-        <div className={styles.Products}>
-          {products.map((item) => (
-            <ProductItem key={item.id} product={item} />
-          ))}
-        </div>
+        {status === 'pending' && <Spinner />}
+        {status === 'failed' && <Error />}
+        {status === 'success' && (
+          <div className={styles.Products}>
+            {products.map((item) => (
+              <ProductItem key={item.id} product={item} />
+            ))}
+          </div>
+        )}
       </div>
     )
   }
@@ -44,6 +51,7 @@ export class App extends PureComponent<AppProps, unknown> {
 const mapStateToProps = (state: RootState) => ({
   category: state.categories.current_category,
   products: state.products.products,
+  status: state.products.status,
 })
 
 const mapDispatchToProps = (dispatch: AppDispatch) => ({

@@ -1,3 +1,5 @@
+@use '../../styles/mixins';
+
 .Container {
   max-width: 1440px;
   margin-inline: auto;
@@ -5,4 +7,6 @@
 
 .Wrapper {
   margin-top: 80px;
+  margin-bottom: 80px;
+  @include mixins.margin-inline;
 }

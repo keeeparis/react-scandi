@@ -1,5 +1,14 @@
 import { client, Field, Query } from '@tilework/opus'
-import { Category, CategoryType, ProductsType, a, b, c } from '../redux/types'
+import {
+  AttributeKeys,
+  AttributeSetKeys,
+  BaseSliceType,
+  Category,
+  CategoryType,
+  CurrencyKeys,
+  ProductKeys,
+  ProductsType,
+} from '../redux/types'
 
 /* Class FetchingAPI => in order to handle api request functions */
 class FetchingAPI {
@@ -21,9 +30,8 @@ class FetchingAPI {
   }
 
   #createProductsQuery(currentCategory: Category) {
-    /* TODO: better naming of readonly types */
     /* TODO: exclude non-primitive types */
-    const productFields: Readonly<c> = [
+    const productFields: Readonly<ProductKeys> = [
       'name',
       'id',
       'inStock',
@@ -32,8 +40,12 @@ class FetchingAPI {
       'category',
       'brand',
     ]
-    const attributesFields: Readonly<b> = ['id', 'name', 'type']
-    const attributeFields: Readonly<a> = ['id', 'value', 'displayValue']
+    const attributesFields: Readonly<AttributeSetKeys> = ['id', 'name', 'type']
+    const attributeFields: Readonly<AttributeKeys> = [
+      'id',
+      'value',
+      'displayValue',
+    ]
 
     const query = new Query('category')
       .addArgument('input', 'CategoryInput', {
@@ -68,6 +80,24 @@ class FetchingAPI {
     } = await client.post(query)
 
     return products
+  }
+
+  #createCurrenciesQuery() {
+    const currenciesFields: Readonly<CurrencyKeys> = ['label', 'symbol']
+    const query = new Query('currencies', true).addFieldList(currenciesFields)
+    return query
+  }
+
+  async fetchCurrencies() {
+    const query = this.#createCurrenciesQuery()
+
+    const {
+      currencies,
+    }: {
+      currencies: BaseSliceType['currencies']
+    } = await client.post(query)
+
+    return currencies
   }
 }
 
