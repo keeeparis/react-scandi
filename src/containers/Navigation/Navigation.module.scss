@@ -5,26 +5,18 @@
   grid-template-columns: 1fr 40px 1fr;
   grid-template-rows: 80px;
   position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 1;
   align-items: center;
   font-weight: 400;
-  @include mixins.margin-inline;
+  padding-inline: 100px;
 }
 
 .LeftSide {
   display: flex;
   text-transform: uppercase;
   align-self: flex-end;
-}
-
-.CategoryItem {
-  height: 56px;
-  padding-inline: 16px;
-  cursor: pointer;
-}
-
-.active {
-  color: var(--c-primary);
-  border-bottom: 2px solid var(--c-primary);
 }
 
 .Center {
@@ -38,10 +30,8 @@
 
 .RightSide {
   justify-self: end;
-}
-
-.Currencies {
+  align-self: flex-end;
   display: flex;
-  gap: 24px;
-  cursor: pointer;
+  // gap: 20px;
+  align-items: center;
 }

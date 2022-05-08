@@ -1,0 +1,30 @@
+@use '../../styles/mixins';
+
+.Container {
+  padding-inline: 20px;
+  border-bottom: 2px solid transparent;
+  position: relative;
+
+  &:hover {
+    border-bottom: 2px solid var(--c-primary);
+  }
+}
+
+.ImageWrapper {
+  background-image: url('../../assets/empty-cart.svg');
+  width: 20px;
+  height: 20px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  cursor: pointer;
+  @include mixins.navHeight;
+}
+
+.Modal {
+  position: absolute;
+  user-select: none;
+  width: 300px;
+  top: calc(100% + 2px); //border-width
+  right: 0;
+  background-color: white;
+}

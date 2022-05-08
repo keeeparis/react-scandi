@@ -25,12 +25,13 @@ type Props = StateProps & OwnProps
 export class ProductItem extends PureComponent<Props, unknown> {
   render() {
     const { product, currentCurrency } = this.props
+
     const currencyToShow = product.prices.filter(
-      (price) => price.currency.label === currentCurrency.label
+      ({ currency }) => currency.label === currentCurrency.label
     )[0]
 
     return (
-      <div className={styles.Container}>
+      <article className={styles.Container}>
         <div className={styles.Inner}>
           <div className={styles.ImageWrapper}>
             <img src={product.gallery[0]} alt={product.name} />
@@ -43,9 +44,13 @@ export class ProductItem extends PureComponent<Props, unknown> {
             <span>{currencyToShow.amount}</span>
           </div>
 
+          {/* TODO: Реализовать добавление в корзину.
+            Обратить внимание на аттрибуты. Возможно сделать поп-ап 
+            компонент с выбором аттрибутов. (или добавлять с дефолтными)
+          */}
           <div className={styles.AddToCart} />
         </div>
-      </div>
+      </article>
     )
   }
 }

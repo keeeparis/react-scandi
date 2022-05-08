@@ -10,13 +10,18 @@ import {
   ProductsType,
 } from '../redux/types'
 
-/* Class FetchingAPI => in order to handle api request functions */
+/**
+ * Class FetchingAPI handles api requests
+ */
 class FetchingAPI {
   #createCategoriesQuery() {
     const query = new Query('categories', true).addField(new Field('name'))
     return query
   }
 
+  /**
+   * Get categories from API.
+   */
   async fetchCategories() {
     const query = this.#createCategoriesQuery()
 
@@ -70,6 +75,9 @@ class FetchingAPI {
     return query
   }
 
+  /**
+   * Get products for current catagory from API.
+   */
   async fetchProducts(currentCategory: Category) {
     const query = this.#createProductsQuery(currentCategory)
 
@@ -88,6 +96,9 @@ class FetchingAPI {
     return query
   }
 
+  /**
+   * Get currencies from API.
+   */
   async fetchCurrencies() {
     const query = this.#createCurrenciesQuery()
 

@@ -1,0 +1,67 @@
+@use '../../styles/mixins';
+
+.Container {
+  cursor: pointer;
+  position: relative;
+  // background-color: aquamarine;
+  user-select: none;
+  font-size: 18px;
+  font-weight: 500;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 13%;
+    right: 5px;
+    width: 6px;
+    height: 6px;
+    border-bottom: 1px solid black;
+    border-left: 1px solid black;
+    transform: rotate(-45deg);
+    transition: all 0.2s ease;
+    pointer-events: none;
+  }
+
+  &.rotate::after {
+    transform: rotate(-225deg);
+    top: 18%;
+  }
+}
+
+.DefaultValue {
+  cursor: pointer;
+  padding-right: 20px;
+  transition: all 0.2s ease;
+  padding: 0 25px 0px 20px;
+  @include mixins.navHeight;
+  border-bottom: 2px solid transparent;
+
+  &:hover {
+    border-bottom: 2px solid var(--c-primary);
+  }
+}
+
+.Ul {
+  position: absolute;
+  width: 114px;
+  padding: 0;
+  z-index: 1;
+  box-shadow: 0px 4px 35px 10px rgba(168, 172, 176, 0.19);
+}
+
+.Li {
+  padding: 10px 0 10px 15px;
+  list-style: none;
+  cursor: pointer;
+  color: black;
+  position: relative;
+
+  &:hover {
+    background-color: lightgrey;
+  }
+
+  &.active {
+    background-color: #eee;
+    cursor: auto;
+  }
+}

@@ -1,0 +1,13 @@
+@use '../../styles/mixins';
+
+.CategoryItem {
+  @include mixins.navHeight;
+  padding-inline: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.active {
+  color: var(--c-primary);
+  border-bottom: 2px solid var(--c-primary);
+}

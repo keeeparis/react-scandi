@@ -16,3 +16,7 @@
   filter: invert(1);
   transition: all 0.3s ease-out;
 }
+
+@mixin navHeight {
+  height: 56px;
+}
