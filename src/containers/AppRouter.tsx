@@ -1,10 +1,11 @@
 import React, { PureComponent } from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import { CartOverlayContext } from '../context/CartOverlay/CartOverlayContext'
+import CartOverlayProvider from '../context/CartOverlay/CartOverlayProvider'
 import App from '../pages/App'
 import Cart from '../pages/Cart'
 import Product from '../pages/Product'
 import Layout from './Layout'
-import LayoutProvider from './Layout/LayoutProvider'
 
 export class AppRouter extends PureComponent {
   render() {
@@ -14,11 +15,9 @@ export class AppRouter extends PureComponent {
           <Route
             path="/"
             element={
-              /* TODO: Подумать чтобы в провайдер пропсом прокинуть контекст, 
-              как это сделано в редаксе */
-              <LayoutProvider>
+              <CartOverlayProvider Context={CartOverlayContext}>
                 <Layout />
-              </LayoutProvider>
+              </CartOverlayProvider>
             }
           >
             <Route index element={<App />} />

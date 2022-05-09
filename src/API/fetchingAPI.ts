@@ -54,7 +54,7 @@ class FetchingAPI {
 
     const query = new Query('category')
       .addArgument('input', 'CategoryInput', {
-        title: currentCategory,
+        title: currentCategory.name,
       })
       .addField(
         new Field('products', true)

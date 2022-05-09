@@ -15,7 +15,7 @@ export const fetchProducts = createAsyncThunk<
   null,
   { state: { categories: CategoryType } }
 >('fetch/products', async (_arg, thunkAPI) => {
-  const currentCategory = thunkAPI.getState().categories.current_category.name
+  const currentCategory = thunkAPI.getState().categories.current_category
 
   const products = await FetchingAPI.fetchProducts(currentCategory)
   return products

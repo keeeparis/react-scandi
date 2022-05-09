@@ -18,7 +18,7 @@ interface AppProps {
 export class App extends PureComponent<AppProps, unknown> {
   componentDidUpdate(prev: AppProps) {
     const { fetchProductList, category } = this.props
-    /* In pureComponent shouldcomponentupdate works automatically
+    /* In pureComponent shouldComponentUpdate works automatically
     if props change. When category changes, in componentDidUpdate
     we compare previous and current value of category and if they are 
     different, we fetch new products list */

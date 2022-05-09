@@ -1,8 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit'
+import attributesReducer from '../slices/attributesSlice'
+import baseReducer from '../slices/baseSlice'
 import cartReducer from '../slices/cartSlice'
 import categoriesReducer from '../slices/categoriesSlice'
 import productsReducer from '../slices/productsSlice'
-import baseReducer from '../slices/baseSlice'
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     cart: cartReducer,
     categories: categoriesReducer,
     base: baseReducer,
+    attributes: attributesReducer,
   },
 })
 

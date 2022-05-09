@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react'
+import { CartOverlayContext } from '../../context/CartOverlay/CartOverlayContext'
 import CartNav from '../CartNav'
 import CategoriesNav from '../CategoriesNav'
 import CurrencyNav from '../CurrencyNav'
-import { LayoutContext } from '../Layout/LayoutProvider'
 import styles from './Navigation.module.scss'
 
 export class Navigation extends PureComponent {
@@ -18,7 +18,7 @@ export class Navigation extends PureComponent {
         <div className={styles.RightSide}>
           <CurrencyNav />
 
-          <LayoutContext.Consumer>
+          <CartOverlayContext.Consumer>
             {(value) =>
               value && (
                 <CartNav
@@ -28,7 +28,7 @@ export class Navigation extends PureComponent {
                 />
               )
             }
-          </LayoutContext.Consumer>
+          </CartOverlayContext.Consumer>
         </div>
       </div>
     )
