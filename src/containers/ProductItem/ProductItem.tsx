@@ -3,16 +3,12 @@ import React, { FormEvent, PureComponent } from 'react'
 import { connect } from 'react-redux'
 import ClickOutside from '../../components/ClickOutside'
 import { CartOverlayContext } from '../../context/CartOverlay/CartOverlayContext'
-import { addItemToCart } from '../../redux/slices/cartSlice'
+import { addItemToCart, ProductInCart } from '../../redux/slices/cartSlice'
 import { AppDispatch, RootState } from '../../redux/store/store'
 import { Attribute, AttributeSet, Product } from '../../redux/types'
+import { KeyofOnlyString, ValueOf } from '../../types'
 import PopUp from './PopUp'
 import styles from './ProductItem.module.scss'
-
-/* USEFul types TODO: вынести */
-export type ValueOf<T> = T[keyof T]
-export type KeyofOnlyString<T> = keyof T & string
-/*  */
 
 interface OwnProps {
   product: Product
@@ -32,7 +28,7 @@ const mapStateToProps = (state: RootState) => ({
 })
 
 const mapDispatchToProps = (dispatch: AppDispatch) => ({
-  addToCart: (product: Product) => dispatch(addItemToCart(product)),
+  addToCart: (product: ProductInCart) => dispatch(addItemToCart(product)),
 })
 
 type StateProps = ReturnType<typeof mapStateToProps>
@@ -58,28 +54,44 @@ class ProductItem extends PureComponent<Props, ProductItemState> {
 
     if (isSelectAttributes) {
       toggleModal()
-      this.setState({ isPopUp: true }) // TODO: function showPopUp()
+      this.openVisibility()
     } else {
-      addToCart(product)
+      addToCart({
+        ...product,
+        attributes: null,
+      })
     }
   }
 
   handleSubmitForm(e: FormEvent<HTMLFormElement>) {
     const { addToCart, product } = this.props
     const { attributes } = this.state
-    // TODO: передать в диспатч продакт и аттрибьютс
+
     e.preventDefault()
-    console.log('PRODUCT')
-    console.log(product)
-    console.log('ATTRIBUTES')
-    console.log(attributes)
-    // addToCart(newProduct)
+    addToCart({
+      ...product,
+      attributes,
+    })
+    this.resetAttributes()
+    this.handleClosePopUp()
   }
 
   handleClosePopUp = () => {
     const { closeModal } = this.context
     closeModal()
-    this.setState({ isPopUp: false }) // TODO: create func closePopUp()
+    this.closeVisibility()
+  }
+
+  openVisibility = () => {
+    this.setState({ isPopUp: true })
+  }
+
+  closeVisibility = () => {
+    this.setState({ isPopUp: false })
+  }
+
+  resetAttributes = () => {
+    this.setState({ attributes: {} })
   }
 
   handleInputChange =
