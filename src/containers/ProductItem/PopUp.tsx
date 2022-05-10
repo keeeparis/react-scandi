@@ -1,6 +1,7 @@
 import React, { FormEvent, PureComponent } from 'react'
 import { Product } from '../../redux/types'
-import { AttributesStateType, KeyofOnlyString, ValueOf } from './ProductItem'
+import { KeyofOnlyString, ValueOf } from '../../types'
+import { AttributesStateType } from './ProductItem'
 import styles from './ProductItem.module.scss'
 
 interface PopUpProps {
@@ -27,9 +28,6 @@ export class PopUp extends PureComponent<PopUpProps, unknown> {
               <div>
                 {attrSet.items.map((attribute) => (
                   <div key={attribute.id}>
-                    <label htmlFor={attribute.id}>
-                      {attribute.displayValue}
-                    </label>
                     <input
                       type="radio"
                       id={attribute.id}
@@ -37,7 +35,11 @@ export class PopUp extends PureComponent<PopUpProps, unknown> {
                       name={attrSet.name}
                       checked={attributes[attrSet.name] === attribute.value}
                       onChange={handleInputChange(attrSet.id, attribute.value)}
+                      required
                     />
+                    <label htmlFor={attribute.id}>
+                      {attribute.displayValue}
+                    </label>
                   </div>
                 ))}
               </div>

@@ -5,12 +5,17 @@ interface ContainerProps {
   children?: ReactNode
   toggleCartOverlay: () => void
   toggleKeyDownOnCartOverlay: (e: React.KeyboardEvent<HTMLDivElement>) => void
+  amountOfItemsInCart: number
 }
 
 export class Container extends PureComponent<ContainerProps> {
   render() {
-    const { children, toggleCartOverlay, toggleKeyDownOnCartOverlay } =
-      this.props
+    const {
+      children,
+      toggleCartOverlay,
+      toggleKeyDownOnCartOverlay,
+      amountOfItemsInCart,
+    } = this.props
 
     return (
       <div className={styles.Container}>
@@ -21,7 +26,11 @@ export class Container extends PureComponent<ContainerProps> {
           role="menuitem"
           aria-label="cart"
           tabIndex={0}
-        />
+        >
+          {amountOfItemsInCart ? (
+            <div className={styles.AmountInCart}>{amountOfItemsInCart}</div>
+          ) : null}
+        </div>
         {children}
       </div>
     )

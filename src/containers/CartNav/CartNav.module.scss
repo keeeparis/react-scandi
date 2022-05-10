@@ -18,6 +18,23 @@
   background-size: contain;
   cursor: pointer;
   @include mixins.navHeight;
+  position: relative;
+}
+
+.AmountInCart {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background-color: black;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  padding-bottom: 2px;
+  color: white;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .Modal {
