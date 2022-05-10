@@ -35,7 +35,6 @@ class FetchingAPI {
   }
 
   #createProductsQuery(currentCategory: Category) {
-    /* TODO: exclude non-primitive types */
     const productFields: Readonly<ProductKeys> = [
       'name',
       'id',

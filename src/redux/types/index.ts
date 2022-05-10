@@ -40,7 +40,7 @@ export interface AttributeSet {
   items: Attribute[]
 }
 
-export type AttributeSetKeys = (keyof AttributeSet)[]
+export type AttributeSetKeys = Exclude<keyof AttributeSet, 'items'>[]
 
 export interface Product {
   id: string
@@ -54,7 +54,7 @@ export interface Product {
   brand: string
 }
 
-export type ProductKeys = (keyof Product)[]
+export type ProductKeys = Exclude<keyof Product, 'prices' | 'attributes'>[]
 
 export interface ProductsType {
   products: DeepReadonlyArray<Product>
