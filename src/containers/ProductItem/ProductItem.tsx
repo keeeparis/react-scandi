@@ -5,35 +5,18 @@ import ClickOutside from '../../components/ClickOutside'
 import { CartOverlayContext } from '../../context/CartOverlay/CartOverlayContext'
 import { addItemToCart, ProductInCart } from '../../redux/slices/cartSlice'
 import { AppDispatch, RootState } from '../../redux/store/store'
-import { Attribute, AttributeSet, Product } from '../../redux/types'
+import { Product } from '../../redux/types'
 import { KeyofOnlyString, ValueOf } from '../../types'
 import PopUp from './PopUp'
 import styles from './ProductItem.module.scss'
-
-interface OwnProps {
-  product: Product
-}
-
-export type AttributesStateType = {
-  [x: AttributeSet['id']]: Attribute['value']
-}
-
-export interface ProductItemState {
-  isPopUp: boolean
-  attributes: AttributesStateType
-}
-
-const mapStateToProps = (state: RootState) => ({
-  currentCurrency: state.base.currentCurrency,
-})
-
-const mapDispatchToProps = (dispatch: AppDispatch) => ({
-  addToCart: (product: ProductInCart) => dispatch(addItemToCart(product)),
-})
-
-type StateProps = ReturnType<typeof mapStateToProps>
-type DispatchProps = ReturnType<typeof mapDispatchToProps>
-type Props = StateProps & DispatchProps & OwnProps
+import {
+  AttributesStateType,
+  DispatchProps,
+  OwnProps,
+  ProductItemState,
+  Props,
+  StateProps,
+} from './types'
 
 class ProductItem extends PureComponent<Props, ProductItemState> {
   static contextType = CartOverlayContext
@@ -167,6 +150,14 @@ class ProductItem extends PureComponent<Props, ProductItemState> {
     )
   }
 }
+
+export const mapStateToProps = (state: RootState) => ({
+  currentCurrency: state.base.currentCurrency,
+})
+
+export const mapDispatchToProps = (dispatch: AppDispatch) => ({
+  addToCart: (product: ProductInCart) => dispatch(addItemToCart(product)),
+})
 
 const connector = connect<StateProps, DispatchProps, OwnProps, RootState>(
   mapStateToProps,

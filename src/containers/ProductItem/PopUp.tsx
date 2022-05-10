@@ -1,18 +1,6 @@
-import React, { FormEvent, PureComponent } from 'react'
-import { Product } from '../../redux/types'
-import { KeyofOnlyString, ValueOf } from '../../types'
-import { AttributesStateType } from './ProductItem'
+import React, { PureComponent } from 'react'
 import styles from './ProductItem.module.scss'
-
-interface PopUpProps {
-  handleSubmitForm: (e: FormEvent<HTMLFormElement>) => void
-  handleInputChange: (
-    name: KeyofOnlyString<AttributesStateType>,
-    value: ValueOf<AttributesStateType>
-  ) => () => void
-  product: Product
-  attributes: AttributesStateType
-}
+import { PopUpProps } from './types'
 
 export class PopUp extends PureComponent<PopUpProps, unknown> {
   render() {
