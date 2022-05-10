@@ -5,6 +5,11 @@
   line-height: 28.8px;
   transition: all 0.2s ease;
   cursor: pointer;
+}
+
+.Inner {
+  padding: 16px;
+  position: relative;
 
   &:hover {
     box-shadow: 0px 4px 35px 10px rgba(168, 172, 176, 0.19);
@@ -14,11 +19,6 @@
       visibility: visible;
     }
   }
-}
-
-.Inner {
-  padding: 16px;
-  position: relative;
 }
 
 .ImageWrapper {
@@ -75,21 +75,29 @@
   }
 }
 
-.PopUp {
-  z-index: 1000;
-  position: fixed;
-  inset: 0;
-  overflow: auto;
-  background-color: var(--c-backdrop);
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  cursor: default;
-}
+// .PopUp {
+//   z-index: 1000;
+//   position: fixed;
+//   inset: 0;
+//   overflow: auto;
+//   background-color: var(--c-backdrop);
+//   display: flex;
+//   justify-content: center;
+//   align-items: flex-start;
+//   cursor: default;
+// }
 
 .PopUPInner {
+  z-index: 1000;
   padding: 24px;
-  display: flex;
-  flex-direction: column;
+  $width: 300px;
+  position: fixed;
+  user-select: none;
+  width: $width;
+  height: fit-content;
+  top: calc(100% + 2px); //border-width
+  left: calc(50% - $width/2);
+  top: 80px;
   background-color: white;
+  cursor: default;
 }

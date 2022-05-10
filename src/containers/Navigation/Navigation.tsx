@@ -17,18 +17,7 @@ export class Navigation extends PureComponent {
 
         <div className={styles.RightSide}>
           <CurrencyNav />
-
-          <CartOverlayContext.Consumer>
-            {(value) =>
-              value && (
-                <CartNav
-                  toggleModal={value.toggleModal}
-                  closeModal={value.closeModal}
-                  isModal={value.isModal}
-                />
-              )
-            }
-          </CartOverlayContext.Consumer>
+          <CartNav />
         </div>
       </div>
     )

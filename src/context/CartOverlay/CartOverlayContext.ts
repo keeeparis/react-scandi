@@ -6,6 +6,8 @@ export interface CartOverlayState {
   closeModal: () => void
 }
 
-export const CartOverlayContext = createContext<CartOverlayState | null>(null)
+export const CartOverlayContext = createContext<CartOverlayState>(
+  {} as CartOverlayState
+)
 
 export type CartOverlayType = typeof CartOverlayContext

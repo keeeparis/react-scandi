@@ -11,20 +11,15 @@ export class AppRouter extends PureComponent {
   render() {
     return (
       <Router>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <CartOverlayProvider Context={CartOverlayContext}>
-                <Layout />
-              </CartOverlayProvider>
-            }
-          >
-            <Route index element={<App />} />
-            <Route path="product/:id" element={<Product />} />
-            <Route path="cart" element={<Cart />} />
-          </Route>
-        </Routes>
+        <CartOverlayProvider Context={CartOverlayContext}>
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route index element={<App />} />
+              <Route path="product/:id" element={<Product />} />
+              <Route path="cart" element={<Cart />} />
+            </Route>
+          </Routes>
+        </CartOverlayProvider>
       </Router>
     )
   }
