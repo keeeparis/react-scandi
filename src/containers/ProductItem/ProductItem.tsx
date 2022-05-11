@@ -1,35 +1,38 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import React, { FormEvent, PureComponent } from 'react'
+import React, { Component, FormEvent, PureComponent } from 'react'
 import { connect } from 'react-redux'
 import ClickOutside from '../../components/ClickOutside'
-import { CartOverlayContext } from '../../context/CartOverlay/CartOverlayContext'
-import { addItemToCart, ProductInCart } from '../../redux/slices/cartSlice'
+import { ModalContext } from '../../context/ModalContext'
+import { addItemToCart } from '../../redux/slices/cartSlice'
 import { AppDispatch, RootState } from '../../redux/store/store'
-import { Product } from '../../redux/types'
+import {
+  Product,
+  ProductInCart,
+  SelectedAttributesType,
+} from '../../redux/types'
 import { KeyofOnlyString, ValueOf } from '../../types'
-import PopUp from './PopUp'
+import AttributesPopUp from '../AttributesPopUp'
 import styles from './ProductItem.module.scss'
 import {
-  AttributesStateType,
   DispatchProps,
   OwnProps,
   ProductItemState,
   Props,
   StateProps,
 } from './types'
-
+/* TODO: component rerenders because of isModal */
 class ProductItem extends PureComponent<Props, ProductItemState> {
-  static contextType = CartOverlayContext
+  static contextType = ModalContext
 
-  context!: React.ContextType<typeof CartOverlayContext>
+  context!: React.ContextType<typeof ModalContext>
 
   constructor(props: Props) {
     super(props)
-    this.state = { isPopUp: false, attributes: {} }
+    this.state = { isPopUp: false, selectedAttributes: {} }
     this.handleSubmitForm = this.handleSubmitForm.bind(this)
   }
 
-  handleAddToCart(product: Product) {
+  handleClickOnCartButton(product: Product) {
     const { addToCart } = this.props
     const { toggleModal } = this.context
 
@@ -37,57 +40,57 @@ class ProductItem extends PureComponent<Props, ProductItemState> {
 
     if (isSelectAttributes) {
       toggleModal()
-      this.openVisibility()
+      this.openPopUp()
     } else {
       addToCart({
         ...product,
-        attributes: null,
+        selectedAttributes: {},
       })
     }
   }
 
   handleSubmitForm(e: FormEvent<HTMLFormElement>) {
     const { addToCart, product } = this.props
-    const { attributes } = this.state
+    const { selectedAttributes } = this.state
 
     e.preventDefault()
     addToCart({
       ...product,
-      attributes,
+      selectedAttributes,
     })
     this.resetAttributes()
-    this.handleClosePopUp()
+    this.handleClosePopUpAndModal()
   }
 
-  handleClosePopUp = () => {
+  handleClosePopUpAndModal = () => {
     const { closeModal } = this.context
     closeModal()
-    this.closeVisibility()
+    this.closePopUp()
   }
 
-  openVisibility = () => {
+  openPopUp = () => {
     this.setState({ isPopUp: true })
   }
 
-  closeVisibility = () => {
+  closePopUp = () => {
     this.setState({ isPopUp: false })
   }
 
   resetAttributes = () => {
-    this.setState({ attributes: {} })
+    this.setState({ selectedAttributes: {} })
   }
 
   handleInputChange =
     (
-      name: KeyofOnlyString<AttributesStateType>,
-      value: ValueOf<AttributesStateType>
+      name: KeyofOnlyString<SelectedAttributesType>,
+      value: ValueOf<SelectedAttributesType>
     ) =>
     () => {
-      const { attributes } = this.state
+      const { selectedAttributes } = this.state
 
       this.setState({
-        attributes: {
-          ...attributes,
+        selectedAttributes: {
+          ...selectedAttributes,
           [name]: value,
         },
       })
@@ -95,12 +98,12 @@ class ProductItem extends PureComponent<Props, ProductItemState> {
 
   render() {
     const { product, currentCurrency } = this.props
-    const { isPopUp, attributes } = this.state
+    const { isPopUp, selectedAttributes } = this.state
     const { isModal } = this.context
 
-    const currencyToShow = product.prices.find(
+    const currencyToShow = product.prices.filter(
       ({ currency }) => currency.label === currentCurrency.label
-    )
+    )[0]
 
     const isPopUpVisible = isModal && isPopUp
 
@@ -117,18 +120,14 @@ class ProductItem extends PureComponent<Props, ProductItemState> {
 
           {/* Price */}
           <div className={styles.Price}>
-            {currencyToShow && (
-              <>
-                <span>{currencyToShow.currency.symbol}</span>
-                <span>{currencyToShow.amount}</span>
-              </>
-            )}
+            <span>{currencyToShow.currency.symbol}</span>
+            <span>{currencyToShow.amount}</span>
           </div>
 
           {/* AddToCart Button */}
           <div
             className={styles.AddToCart}
-            onClick={this.handleAddToCart.bind(this, product)}
+            onClick={this.handleClickOnCartButton.bind(this, product)}
             role="button"
             tabIndex={0}
             aria-label="addToCart"
@@ -137,12 +136,12 @@ class ProductItem extends PureComponent<Props, ProductItemState> {
 
         {/* Attributes Selection PopUp */}
         {isPopUpVisible && (
-          <ClickOutside callback={this.handleClosePopUp}>
-            <PopUp
+          <ClickOutside callback={this.handleClosePopUpAndModal}>
+            <AttributesPopUp
               handleSubmitForm={this.handleSubmitForm}
               handleInputChange={this.handleInputChange}
               product={product}
-              attributes={attributes}
+              selectedAttributes={selectedAttributes}
             />
           </ClickOutside>
         )}

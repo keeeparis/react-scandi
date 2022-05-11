@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react'
-import { CartOverlayContext } from '../../context/CartOverlay/CartOverlayContext'
 import CartNav from '../CartNav'
 import CategoriesNav from '../CategoriesNav'
 import CurrencyNav from '../CurrencyNav'

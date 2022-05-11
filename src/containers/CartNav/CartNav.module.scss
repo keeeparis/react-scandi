@@ -36,12 +36,3 @@
   align-items: center;
   justify-content: center;
 }
-
-.Modal {
-  position: absolute;
-  user-select: none;
-  width: 300px;
-  top: calc(100% + 2px); //border-width
-  right: 0;
-  background-color: white;
-}

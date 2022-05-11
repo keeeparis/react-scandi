@@ -1,20 +1,20 @@
 /* eslint-disable react/no-unused-state */
 import React, { Component, ReactNode } from 'react'
-import { CartOverlayState, CartOverlayType } from './CartOverlayContext'
+import { ModalContextState, ModalContextType } from './ModalContext'
 
-interface CartOverlayContextProps {
+interface ModalContextProps {
   children: ReactNode
-  Context: CartOverlayType
+  Context: ModalContextType
 }
 
 /**
  * Component that manages Modal visibility. Uses Context API.
  */
-export class CartOverlayProvider extends Component<
-  CartOverlayContextProps,
-  CartOverlayState
+export class ModalProvider extends Component<
+  ModalContextProps,
+  ModalContextState
 > {
-  constructor(props: CartOverlayContextProps) {
+  constructor(props: ModalContextProps) {
     super(props)
     this.state = {
       isModal: false,
@@ -38,4 +38,4 @@ export class CartOverlayProvider extends Component<
   }
 }
 
-export default CartOverlayProvider
+export default ModalProvider

@@ -74,30 +74,3 @@
     }
   }
 }
-
-// .PopUp {
-//   z-index: 1000;
-//   position: fixed;
-//   inset: 0;
-//   overflow: auto;
-//   background-color: var(--c-backdrop);
-//   display: flex;
-//   justify-content: center;
-//   align-items: flex-start;
-//   cursor: default;
-// }
-
-.PopUPInner {
-  z-index: 1000;
-  padding: 24px;
-  $width: 300px;
-  position: fixed;
-  user-select: none;
-  width: $width;
-  height: fit-content;
-  top: calc(100% + 2px); //border-width
-  left: calc(50% - $width/2);
-  top: 80px;
-  background-color: white;
-  cursor: default;
-}

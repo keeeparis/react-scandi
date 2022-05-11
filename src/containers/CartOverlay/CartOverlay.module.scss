@@ -1,0 +1,40 @@
+.Modal {
+  position: absolute;
+  user-select: none;
+  width: 350px;
+  max-height: 65vh;
+  // min-height: 450px;
+  top: calc(100% + 2px); //border-width
+  right: 0;
+  background-color: white;
+
+  padding: 32px 16px;
+  font-size: 16px;
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    width: 5px;
+    height: 8px;
+    background-color: #aaa;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--c-primary);
+  }
+}
+
+.Title {
+  margin-bottom: 32px;
+  font-weight: 700;
+
+  span {
+    font-weight: 400;
+  }
+}
+
+.Wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  align-items: flex-start;
+}

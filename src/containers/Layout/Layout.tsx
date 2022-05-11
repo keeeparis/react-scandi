@@ -1,14 +1,14 @@
 import cn from 'classnames'
 import React, { PureComponent } from 'react'
 import { Outlet } from 'react-router-dom'
-import { CartOverlayContext } from '../../context/CartOverlay/CartOverlayContext'
+import { ModalContext } from '../../context/ModalContext'
 import Navigation from '../Navigation'
 import styles from './Layout.module.scss'
 
 export class Layout extends PureComponent {
-  static contextType = CartOverlayContext
+  static contextType = ModalContext
 
-  context!: React.ContextType<typeof CartOverlayContext>
+  context!: React.ContextType<typeof ModalContext>
 
   render() {
     const { isModal } = this.context

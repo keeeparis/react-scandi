@@ -66,3 +66,15 @@ export interface BaseSliceType {
   currentCurrency: Currency
   status: Status
 }
+
+export type SelectedAttributesType = {
+  [x: AttributeSet['id']]: Attribute['value']
+}
+
+export interface ProductInCart extends Product {
+  selectedAttributes: SelectedAttributesType
+}
+
+export interface cartSliceProps {
+  items: { item: ProductInCart; count: number }[]
+}

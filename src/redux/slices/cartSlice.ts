@@ -1,15 +1,6 @@
 /* eslint-disable no-restricted-syntax */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { AttributesStateType } from '../../containers/ProductItem/ProductItem'
-import { Product } from '../types'
-
-export interface ProductInCart extends Omit<Product, 'attributes'> {
-  attributes: AttributesStateType | null
-}
-
-interface cartSliceProps {
-  items: { item: ProductInCart; count: number }[]
-}
+import { cartSliceProps, ProductInCart } from '../types'
 
 const initialState: cartSliceProps = {
   items: [],
@@ -17,16 +8,16 @@ const initialState: cartSliceProps = {
 
 const findItem = (items: cartSliceProps['items'], item: ProductInCart) => {
   const isItemInCart = [...items].find((element) => {
-    const isAttributesInElement = element.item.attributes
-    const isAttributesInItem = item.attributes
+    const attributesInElement = element.item.selectedAttributes
+    const attributesInItem = item.selectedAttributes
 
     if (element.item.id !== item.id) {
       return false
     }
 
-    if (isAttributesInElement && isAttributesInItem) {
-      for (const [key, value] of Object.entries(isAttributesInElement)) {
-        if (isAttributesInItem[key] && isAttributesInItem[key] !== value) {
+    if (attributesInElement && attributesInItem) {
+      for (const [key, value] of Object.entries(attributesInElement)) {
+        if (attributesInItem[key] && attributesInItem[key] !== value) {
           return false
         }
       }

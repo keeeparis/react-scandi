@@ -1,0 +1,81 @@
+.Inner {
+  display: flex;
+  width: 100%;
+  gap: 8px;
+}
+
+.ImageWrapper {
+  width: 120px;
+  height: 190px;
+
+  img {
+    width: inherit;
+    height: inherit;
+    object-fit: cover;
+  }
+}
+
+.Data {
+  display: flex;
+  gap: 4px;
+  align-items: flex-start;
+  flex: 1;
+}
+
+.DataWrapper {
+  display: flex;
+  flex-direction: column;
+  align-self: flex-start;
+  gap: 8px;
+  flex: 1;
+}
+
+.NameWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  line-height: 160%;
+}
+
+.Name {
+  font-weight: 300;
+}
+
+.Price {
+  font-weight: 500;
+}
+
+.Attributes {
+  user-select: none;
+  pointer-events: none;
+}
+
+.Actions {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 32px;
+  font-weight: 500;
+  height: 100%;
+}
+
+.Minus,
+.Plus {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.Plus {
+  background-image: url('../../assets/plus-square.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.Minus {
+  background-image: url('../../assets/minus-square.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+}

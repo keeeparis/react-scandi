@@ -1,0 +1,68 @@
+.AttributeName {
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.Color {
+  input {
+    display: none;
+
+    &:checked ~ label {
+      outline: 2px solid white;
+      box-shadow: 0 0 0px 3px var(--c-primary);
+    }
+  }
+
+  label {
+    display: block;
+    box-shadow: 0 0 0px 1px var(--c-backdrop-gray);
+  }
+
+  &.lg label {
+    width: 28px;
+    height: 28px;
+  }
+
+  &.sm label {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.Size {
+  input[type='radio'] {
+    display: none;
+
+    &:checked ~ label {
+      background-color: black;
+      outline: 1px solid white;
+      color: white;
+    }
+  }
+
+  label {
+    background-color: white;
+    outline: 1px solid black;
+    display: flex;
+    justify-content: center;
+    font-weight: 400;
+    align-items: center;
+  }
+
+  &.lg label {
+    width: 30px;
+    height: 30px;
+  }
+
+  &.sm label {
+    width: 18px;
+    height: 18px;
+    font-size: 12px;
+  }
+}
+
+.Wrapper {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+}
