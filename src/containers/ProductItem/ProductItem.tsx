@@ -115,7 +115,10 @@ class ProductItem extends PureComponent<Props, ProductItemState> {
           </div>
 
           {/* Name */}
-          <div className={styles.Name}>{product.name}</div>
+          <div className={styles.Name}>
+            <span>{product.brand}</span>
+            <span>{product.name}</span>
+          </div>
 
           {/* Price */}
           <div className={styles.Price}>

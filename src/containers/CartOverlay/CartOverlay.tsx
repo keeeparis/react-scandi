@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
+import Button from '../../components/Button'
 import { AppDispatch, RootState } from '../../redux/store/store'
 import { selectPriceInCurrentCurrency } from '../../utils/selectPriceInCurrentCurrency'
 import CartOverlayItem from '../CartOverlayItem/CartOverlayItem'
@@ -62,8 +63,10 @@ class CartOverlay extends PureComponent<Props, unknown> {
               </div>
             </div>
             <div className={styles.Actions}>
-              <button type="button">View Bag</button>
-              <button type="button">Checkount</button>
+              {/* go to /cart */}
+              <Button>View Bag</Button>
+              {/* do nothing */}
+              <Button>Checkount</Button>
             </div>
           </>
         ) : (

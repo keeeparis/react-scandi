@@ -41,7 +41,10 @@ export class CartOverlayItem extends PureComponent<Props, unknown> {
         <div className={styles.Data}>
           <div className={styles.DataWrapper}>
             <div className={styles.NameWrapper}>
-              <span className={styles.Name}>{item.name}</span>
+              <div className={styles.Name}>
+                <span>{item.brand}</span>
+                <span>{item.name}</span>
+              </div>
 
               <span className={styles.Price}>
                 {price.currency.symbol} {toFixedPrice}
