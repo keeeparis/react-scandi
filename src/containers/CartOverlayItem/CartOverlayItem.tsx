@@ -1,5 +1,11 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { PureComponent } from 'react'
+import { connect } from 'react-redux'
+import { decrement, increment } from '../../redux/slices/cartSlice'
+import { AppDispatch, RootState } from '../../redux/store/store'
 import { Currency, ProductInCart } from '../../redux/types'
+import { selectPriceInCurrentCurrency } from '../../utils/selectPriceInCurrentCurrency'
 import AttributeItem from '../AttributeItem'
 import styles from './CartOverlayItem.module.scss'
 
@@ -9,17 +15,26 @@ interface CartOverlayItemProps {
   currentCurrency: Currency
 }
 
-export class CartOverlayItem extends PureComponent<
-  CartOverlayItemProps,
-  unknown
-> {
-  render() {
-    const { item, count, currentCurrency } = this.props
-    console.log(item)
+const mapStateToProps = (state: RootState) => ({})
 
-    const price = item.prices.filter(
-      ({ currency }) => currency.label === currentCurrency.label
-    )[0]
+const mapDispatchToProps = (dispatch: AppDispatch) => ({
+  incrementItem: (item: ProductInCart) => () => dispatch(increment(item)),
+  decrementItem: (item: ProductInCart) => () => dispatch(decrement(item)),
+})
+
+type StateProps = ReturnType<typeof mapStateToProps>
+type DispatchProps = ReturnType<typeof mapDispatchToProps>
+
+type Props = StateProps & DispatchProps & CartOverlayItemProps
+
+export class CartOverlayItem extends PureComponent<Props, unknown> {
+  render() {
+    const { item, count, currentCurrency, decrementItem, incrementItem } =
+      this.props
+
+    const price = selectPriceInCurrentCurrency(item, currentCurrency)
+    const totalPrice = price.amount * count
+    const toFixedPrice = totalPrice.toFixed(2)
 
     return (
       <div className={styles.Inner}>
@@ -29,7 +44,7 @@ export class CartOverlayItem extends PureComponent<
               <span className={styles.Name}>{item.name}</span>
 
               <span className={styles.Price}>
-                {price.currency.symbol} {price.amount * count}
+                {price.currency.symbol} {toFixedPrice}
               </span>
             </div>
 
@@ -48,9 +63,9 @@ export class CartOverlayItem extends PureComponent<
           </div>
 
           <div className={styles.Actions}>
-            <div className={styles.Plus} />
+            <div className={styles.Plus} onClick={incrementItem(item)} />
             {count}
-            <div className={styles.Minus} />
+            <div className={styles.Minus} onClick={decrementItem(item)} />
           </div>
         </div>
 
@@ -62,4 +77,16 @@ export class CartOverlayItem extends PureComponent<
   }
 }
 
-export default CartOverlayItem
+const connector = connect<
+  StateProps,
+  DispatchProps,
+  CartOverlayItemProps,
+  RootState
+>(
+  mapStateToProps,
+  mapDispatchToProps
+)(CartOverlayItem)
+
+export default connector
+
+// export default CartOverlayItem

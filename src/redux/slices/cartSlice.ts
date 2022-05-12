@@ -44,18 +44,39 @@ export const cartSlice = createSlice({
       }
     },
     deleteItemFromCart(state, action) {
-      console.log('second')
+      const foundProduct = findItem(state.items, action.payload)
+      if (foundProduct) state.items.splice(state.items.indexOf(foundProduct), 1)
     },
-    increment(state, action) {
-      console.log('third')
+    resetCart(state) {
+      state.items = []
     },
-    decrement(state, action) {
-      console.log('fourth')
+    increment(state, action: PayloadAction<ProductInCart>) {
+      const isItem = findItem(state.items, action.payload)
+
+      if (isItem) {
+        isItem.count += 1
+      }
+    },
+    decrement(state, action: PayloadAction<ProductInCart>) {
+      const isItem = findItem(state.items, action.payload)
+
+      if (!isItem) return
+
+      if (isItem.count > 1) {
+        isItem.count -= 1
+      } else {
+        state.items.splice(state.items.indexOf(isItem), 1)
+      }
     },
   },
 })
 
-export const { addItemToCart, deleteItemFromCart, increment, decrement } =
-  cartSlice.actions
+export const {
+  addItemToCart,
+  deleteItemFromCart,
+  resetCart,
+  increment,
+  decrement,
+} = cartSlice.actions
 
 export default cartSlice.reducer

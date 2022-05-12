@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import React, { Component, FormEvent, PureComponent } from 'react'
+import React, { FormEvent, PureComponent } from 'react'
 import { connect } from 'react-redux'
 import ClickOutside from '../../components/ClickOutside'
 import { ModalContext } from '../../context/ModalContext'
@@ -11,6 +11,7 @@ import {
   SelectedAttributesType,
 } from '../../redux/types'
 import { KeyofOnlyString, ValueOf } from '../../types'
+import { selectPriceInCurrentCurrency } from '../../utils/selectPriceInCurrentCurrency'
 import AttributesPopUp from '../AttributesPopUp'
 import styles from './ProductItem.module.scss'
 import {
@@ -101,9 +102,7 @@ class ProductItem extends PureComponent<Props, ProductItemState> {
     const { isPopUp, selectedAttributes } = this.state
     const { isModal } = this.context
 
-    const currencyToShow = product.prices.filter(
-      ({ currency }) => currency.label === currentCurrency.label
-    )[0]
+    const price = selectPriceInCurrentCurrency(product, currentCurrency)
 
     const isPopUpVisible = isModal && isPopUp
 
@@ -120,8 +119,8 @@ class ProductItem extends PureComponent<Props, ProductItemState> {
 
           {/* Price */}
           <div className={styles.Price}>
-            <span>{currencyToShow.currency.symbol}</span>
-            <span>{currencyToShow.amount}</span>
+            <span>{price.currency.symbol}</span>
+            <span>{price.amount}</span>
           </div>
 
           {/* AddToCart Button */}
@@ -130,7 +129,7 @@ class ProductItem extends PureComponent<Props, ProductItemState> {
             onClick={this.handleClickOnCartButton.bind(this, product)}
             role="button"
             tabIndex={0}
-            aria-label="addToCart"
+            aria-label="Add To Cart"
           />
         </div>
 
