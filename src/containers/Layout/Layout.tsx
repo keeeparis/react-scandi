@@ -1,22 +1,25 @@
 import cn from 'classnames'
 import React, { PureComponent } from 'react'
+import { connect } from 'react-redux'
 import { Outlet } from 'react-router-dom'
-import { ModalContext } from '../../context/ModalContext'
+import { RootState } from '../../redux/store/store'
 import Navigation from '../Navigation'
 import styles from './Layout.module.scss'
 
-export class Layout extends PureComponent {
-  static contextType = ModalContext
+export const mapStateToProps = (state: RootState) => ({
+  isModalActive: state.modal.isModal,
+})
 
-  context!: React.ContextType<typeof ModalContext>
+type StateProps = ReturnType<typeof mapStateToProps>
 
+export class Layout extends PureComponent<StateProps, unknown> {
   render() {
-    const { isModal } = this.context
+    const { isModalActive } = this.props
 
     return (
       <div
         className={cn(styles.Container, {
-          [styles.modalActive]: isModal,
+          [styles.modalActive]: isModalActive,
         })}
       >
         <Navigation />
@@ -28,4 +31,9 @@ export class Layout extends PureComponent {
   }
 }
 
-export default Layout
+const connector = connect<StateProps, unknown, unknown, RootState>(
+  mapStateToProps,
+  null
+)(Layout)
+
+export default connector

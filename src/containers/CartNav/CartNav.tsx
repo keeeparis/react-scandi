@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import ClickOutside from '../../components/ClickOutside'
-import { ModalContext } from '../../context/ModalContext'
+import { close, toggle } from '../../redux/slices/modalSlice'
 import { AppDispatch, RootState } from '../../redux/store/store'
 import KeyboardEvent from '../../utils/KeyboardEvent'
 import CartOverlay from '../CartOverlay/CartOverlay'
@@ -18,7 +18,10 @@ const mapStateToProps = (state: RootState) => ({
   ),
 })
 
-const mapDispatchToProps = (dispatch: AppDispatch) => ({})
+const mapDispatchToProps = (dispatch: AppDispatch) => ({
+  toggleModal: () => dispatch(toggle()),
+  closeModal: () => dispatch(close()),
+})
 
 type StateProps = ReturnType<typeof mapStateToProps>
 type DispatchProps = ReturnType<typeof mapDispatchToProps>
@@ -26,17 +29,13 @@ type DispatchProps = ReturnType<typeof mapDispatchToProps>
 type Props = StateProps & DispatchProps
 
 export class CartNav extends PureComponent<Props, CartNavState> {
-  static contextType = ModalContext
-
-  context!: React.ContextType<typeof ModalContext>
-
   constructor(props: Props) {
     super(props)
     this.state = { isCartOverlay: false }
   }
 
   toggleCartOverlay = () => {
-    const { toggleModal } = this.context
+    const { toggleModal } = this.props
     toggleModal()
     this.toggleVisibility()
   }
@@ -55,7 +54,7 @@ export class CartNav extends PureComponent<Props, CartNavState> {
   }
 
   closeCartOverlay = () => {
-    const { closeModal } = this.context
+    const { closeModal } = this.props
     closeModal()
     this.closeVisibility()
   }
@@ -65,20 +64,17 @@ export class CartNav extends PureComponent<Props, CartNavState> {
   }
 
   render() {
-    const { isModal } = this.context
     const { isCartOverlay } = this.state
     const { amountOfItemsInCart } = this.props
 
-    const isCartOverlayVisible = isModal && isCartOverlay
-
-    return isCartOverlayVisible ? (
+    return isCartOverlay ? (
       <ClickOutside callback={this.closeCartOverlay}>
         <Container
           toggleCartOverlay={this.toggleCartOverlay}
           toggleKeyDownOnCartOverlay={this.toggleKeyDownOnCartOverlay}
           amountOfItemsInCart={amountOfItemsInCart}
         >
-          <CartOverlay />
+          <CartOverlay closeCartOverlay={this.closeCartOverlay} />
         </Container>
       </ClickOutside>
     ) : (

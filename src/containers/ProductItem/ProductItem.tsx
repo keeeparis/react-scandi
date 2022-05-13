@@ -1,9 +1,11 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import React, { FormEvent, PureComponent } from 'react'
+import cn from 'classnames'
+import React, { FormEvent, MouseEvent, PureComponent } from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 import ClickOutside from '../../components/ClickOutside'
-import { ModalContext } from '../../context/ModalContext'
 import { addItemToCart } from '../../redux/slices/cartSlice'
+import { close, toggle } from '../../redux/slices/modalSlice'
 import { AppDispatch, RootState } from '../../redux/store/store'
 import {
   Product,
@@ -21,34 +23,32 @@ import {
   Props,
   StateProps,
 } from './types'
-/* TODO: component rerenders because of isModal */
+
 class ProductItem extends PureComponent<Props, ProductItemState> {
-  static contextType = ModalContext
-
-  context!: React.ContextType<typeof ModalContext>
-
   constructor(props: Props) {
     super(props)
     this.state = { isPopUp: false, selectedAttributes: {} }
     this.handleSubmitForm = this.handleSubmitForm.bind(this)
   }
 
-  handleClickOnCartButton(product: Product) {
-    const { addToCart } = this.props
-    const { toggleModal } = this.context
+  handleClickOnCartButton =
+    (product: Product) => (e: MouseEvent<HTMLDivElement>) => {
+      e.preventDefault()
 
-    const isSelectAttributes = !!product.attributes.length
+      const { addToCart, toggleModal } = this.props
 
-    if (isSelectAttributes) {
-      toggleModal()
-      this.openPopUp()
-    } else {
-      addToCart({
-        ...product,
-        selectedAttributes: {},
-      })
+      const isSelectAttributes = !!product.attributes.length
+
+      if (isSelectAttributes) {
+        toggleModal()
+        this.openPopUp()
+      } else {
+        addToCart({
+          ...product,
+          selectedAttributes: {},
+        })
+      }
     }
-  }
 
   handleSubmitForm(e: FormEvent<HTMLFormElement>) {
     const { addToCart, product } = this.props
@@ -64,7 +64,7 @@ class ProductItem extends PureComponent<Props, ProductItemState> {
   }
 
   handleClosePopUpAndModal = () => {
-    const { closeModal } = this.context
+    const { closeModal } = this.props
     closeModal()
     this.closePopUp()
   }
@@ -100,44 +100,50 @@ class ProductItem extends PureComponent<Props, ProductItemState> {
   render() {
     const { product, currentCurrency } = this.props
     const { isPopUp, selectedAttributes } = this.state
-    const { isModal } = this.context
 
     const price = selectPriceInCurrentCurrency(product, currentCurrency)
 
-    const isPopUpVisible = isModal && isPopUp
-
     return (
       <article className={styles.Container}>
-        <div className={styles.Inner}>
-          {/* Image */}
-          <div className={styles.ImageWrapper}>
-            <img src={product.gallery[0]} alt={product.name} />
-          </div>
-
-          {/* Name */}
-          <div className={styles.Name}>
-            <span>{product.brand}</span>
-            <span>{product.name}</span>
-          </div>
-
-          {/* Price */}
-          <div className={styles.Price}>
-            <span>{price.currency.symbol}</span>
-            <span>{price.amount}</span>
-          </div>
-
-          {/* AddToCart Button */}
+        <Link to={`/product/${product.id}`}>
           <div
-            className={styles.AddToCart}
-            onClick={this.handleClickOnCartButton.bind(this, product)}
-            role="button"
-            tabIndex={0}
-            aria-label="Add To Cart"
-          />
-        </div>
+            className={cn(styles.Inner, {
+              [styles.OutOfStock]: !product.inStock,
+            })}
+          >
+            {/* Image */}
+            <div className={styles.ImageWrapper}>
+              <img src={product.gallery[0]} alt={product.name} />
+              {!product.inStock && (
+                <div className={styles.OufOfStock}>out of stock</div>
+              )}
+            </div>
+
+            {/* Name */}
+            <div className={styles.Name}>
+              <span>{product.brand}</span>
+              <span>{product.name}</span>
+            </div>
+
+            {/* Price */}
+            <div className={styles.Price}>
+              <span>{price.currency.symbol}</span>
+              <span>{price.amount}</span>
+            </div>
+
+            {/* AddToCart Button */}
+            <div
+              className={styles.AddToCart}
+              onClick={this.handleClickOnCartButton(product)}
+              role="button"
+              tabIndex={0}
+              aria-label="Add To Cart"
+            />
+          </div>
+        </Link>
 
         {/* Attributes Selection PopUp */}
-        {isPopUpVisible && (
+        {isPopUp && (
           <ClickOutside callback={this.handleClosePopUpAndModal}>
             <AttributesPopUp
               handleSubmitForm={this.handleSubmitForm}
@@ -158,6 +164,8 @@ export const mapStateToProps = (state: RootState) => ({
 
 export const mapDispatchToProps = (dispatch: AppDispatch) => ({
   addToCart: (product: ProductInCart) => dispatch(addItemToCart(product)),
+  toggleModal: () => dispatch(toggle()),
+  closeModal: () => dispatch(close()),
 })
 
 const connector = connect<StateProps, DispatchProps, OwnProps, RootState>(

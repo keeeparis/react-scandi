@@ -1,6 +1,7 @@
 import cn from 'classnames'
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
+import { Navigate } from 'react-router-dom'
 import {
   fetchCategories,
   updateCurrentCategory,
@@ -64,6 +65,8 @@ export class CategoriesNav extends PureComponent<CategoriesNavProps, unknown> {
             {category.name}
           </div>
         ))}
+        {/* <Navigate to="/" /> */}
+        {/* TODO: navigate from product pagae */}
       </>
     )
   }

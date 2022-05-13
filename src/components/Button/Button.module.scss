@@ -1,2 +1,18 @@
 .Button {
+  font-size: 14px;
+  padding: 16px 32px;
+  background-color: white;
+  color: var(--c-text);
+  border: 1px solid var(--c-text);
+  outline: 0;
+  text-transform: uppercase;
+  line-height: 16.8px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.Fill {
+  background-color: var(--c-primary);
+  color: white;
+  border: 0;
 }

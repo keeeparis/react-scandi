@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react'
+import { Link } from 'react-router-dom'
 import CartNav from '../CartNav'
 import CategoriesNav from '../CategoriesNav'
 import CurrencyNav from '../CurrencyNav'
@@ -12,7 +13,9 @@ export class Navigation extends PureComponent {
           <CategoriesNav />
         </div>
 
-        <div className={styles.Center} />
+        <Link to="/">
+          <div className={styles.Center} />
+        </Link>
 
         <div className={styles.RightSide}>
           <CurrencyNav />

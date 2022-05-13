@@ -1,10 +1,15 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 import Button from '../../components/Button'
 import { AppDispatch, RootState } from '../../redux/store/store'
 import { selectPriceInCurrentCurrency } from '../../utils/selectPriceInCurrentCurrency'
 import CartOverlayItem from '../CartOverlayItem/CartOverlayItem'
 import styles from './CartOverlay.module.scss'
+
+interface OwnProps {
+  closeCartOverlay: () => void
+}
 
 const mapStateToProps = (state: RootState) => ({
   amountOfItemsInCart: state.cart.items.reduce(
@@ -27,12 +32,17 @@ const mapDispatchToProps = (dispatch: AppDispatch) => ({})
 type StateProps = ReturnType<typeof mapStateToProps>
 type DispatchProps = ReturnType<typeof mapDispatchToProps>
 
-type Props = StateProps & DispatchProps
+type Props = StateProps & DispatchProps & OwnProps
 
 class CartOverlay extends PureComponent<Props, unknown> {
   render() {
-    const { items, amountOfItemsInCart, currentCurrency, totalPrice } =
-      this.props
+    const {
+      items,
+      amountOfItemsInCart,
+      currentCurrency,
+      totalPrice,
+      closeCartOverlay,
+    } = this.props
 
     const toFixedPrice = totalPrice.toFixed(2)
 
@@ -63,10 +73,14 @@ class CartOverlay extends PureComponent<Props, unknown> {
               </div>
             </div>
             <div className={styles.Actions}>
-              {/* go to /cart */}
-              <Button>View Bag</Button>
-              {/* do nothing */}
-              <Button>Checkount</Button>
+              <Link to="/cart">
+                <Button onClick={closeCartOverlay}>View Bag</Button>
+              </Link>
+              <Link to="/cart">
+                <Button fill onClick={closeCartOverlay}>
+                  Checkout
+                </Button>
+              </Link>
             </div>
           </>
         ) : (

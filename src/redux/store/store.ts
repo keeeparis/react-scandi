@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit'
-import attributesReducer from '../slices/attributesSlice'
+import modalReducer from '../slices/modalSlice'
 import baseReducer from '../slices/baseSlice'
 import cartReducer from '../slices/cartSlice'
 import categoriesReducer from '../slices/categoriesSlice'
@@ -11,7 +11,7 @@ export const store = configureStore({
     cart: cartReducer,
     categories: categoriesReducer,
     base: baseReducer,
-    attributes: attributesReducer,
+    modal: modalReducer,
   },
 })
 
