@@ -1,0 +1,43 @@
+.Wrapper {
+  overflow: hidden;
+  width: inherit;
+  height: inherit;
+  position: relative;
+}
+
+.Inner {
+  display: flex;
+  transition: 0.3s;
+  width: inherit;
+  height: inherit;
+
+  img {
+    width: inherit;
+    height: inherit;
+    object-fit: cover;
+  }
+}
+
+.Actions {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  display: flex;
+  gap: 8px;
+}
+
+.Left,
+.Right {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.Left {
+  background-image: url('../../assets/arrow-right.svg');
+  transform: rotate(180deg);
+}
+
+.Right {
+  background-image: url('../../assets/arrow-right.svg');
+}

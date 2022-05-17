@@ -24,7 +24,9 @@ export class Layout extends PureComponent<StateProps, unknown> {
       >
         <Navigation />
         <div className={styles.Wrapper}>
-          <Outlet />
+          <div className={styles.Inner}>
+            <Outlet />
+          </div>
         </div>
       </div>
     )

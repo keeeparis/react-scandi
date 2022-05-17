@@ -54,6 +54,7 @@ class CartOverlay extends PureComponent<Props, unknown> {
               <div className={styles.Title}>
                 My bag, <span>{amountOfItemsInCart} items</span>
               </div>
+
               <div className={styles.Wrapper}>
                 {items.map(({ item, count }) => (
                   <CartOverlayItem
@@ -61,21 +62,26 @@ class CartOverlay extends PureComponent<Props, unknown> {
                     item={item}
                     count={count}
                     currentCurrency={currentCurrency}
+                    size="sm"
                   />
                 ))}
               </div>
+
               <div className={styles.Total}>
                 <span>Total:</span>
+
                 <span>
                   {currentCurrency.symbol}
                   {toFixedPrice}
                 </span>
               </div>
             </div>
+
             <div className={styles.Actions}>
               <Link to="/cart">
                 <Button onClick={closeCartOverlay}>View Bag</Button>
               </Link>
+
               <Link to="/cart">
                 <Button fill onClick={closeCartOverlay}>
                   Checkout

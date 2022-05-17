@@ -1,16 +1,22 @@
 @use '../../styles/mixins';
 
+.Wrapper {
+  width: 100%;
+  background-color: white;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
 .Container {
   display: grid;
   grid-template-columns: 1fr 40px 1fr;
   grid-template-rows: 80px;
-  position: sticky;
-  top: 0;
-  background-color: white;
-  z-index: 1;
   align-items: center;
   font-weight: 400;
-  padding-inline: 100px;
+  @include mixins.padding-inline-100;
+  @include mixins.max-width-1440;
+  margin: auto;
 }
 
 .LeftSide {

@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
+import cn from 'classnames'
+import Button from '../../components/Button'
 import CartOverlayItem from '../../containers/CartOverlayItem'
 import { AppDispatch, RootState } from '../../redux/store/store'
 import { selectPriceInCurrentCurrency } from '../../utils/selectPriceInCurrentCurrency'
@@ -33,6 +35,18 @@ export class Cart extends PureComponent<Props, unknown> {
     const { items, amountOfItemsInCart, currentCurrency, totalPrice } =
       this.props
 
+    const tax = (totalPrice * 0.21).toFixed(2)
+    const totalPriceFixed = totalPrice.toFixed(2)
+
+    if (!items.length) {
+      return (
+        <div className={styles.Container}>
+          <div className={styles.Title}>Cart</div>
+          <div className={styles.NoItems}>No Items in Cart. Add One!</div>
+        </div>
+      )
+    }
+
     return (
       <div className={styles.Container}>
         <div className={styles.Title}>Cart</div>
@@ -44,8 +58,27 @@ export class Cart extends PureComponent<Props, unknown> {
               item={item}
               count={count}
               currentCurrency={currentCurrency}
+              size="lg"
             />
           ))}
+        </div>
+
+        <div className={styles.Bottom}>
+          <div className={styles.Numbers}>
+            <div className={styles.property}>Tax 21%:</div>
+            <div className={styles.value}>
+              {currentCurrency.symbol} {tax}
+            </div>
+            <div className={styles.property}>Quantity:</div>
+            <div className={styles.value}>{amountOfItemsInCart}</div>
+            <div className={cn(styles.property, styles.bold)}>Total:</div>
+            <div className={styles.value}>
+              {currentCurrency.symbol} {totalPriceFixed}
+            </div>
+          </div>
+          <Button fill onClick={() => console.log('a')}>
+            Order
+          </Button>
         </div>
       </div>
     )

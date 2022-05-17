@@ -2,6 +2,14 @@
   margin-inline: 100px;
 }
 
+@mixin padding-inline-100 {
+  padding-inline: 100px;
+}
+
+@mixin max-width-1440 {
+  max-width: 1440px;
+}
+
 @mixin cart {
   content: '';
   position: absolute;

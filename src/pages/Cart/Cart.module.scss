@@ -7,3 +7,48 @@
   font-size: 32px;
   font-weight: 700;
 }
+
+.NoItems {
+  margin: 50px auto;
+  font-size: 32px;
+  font-weight: 600;
+}
+
+.Wrapper {
+  margin-top: 55px;
+
+  > div {
+    border-top: 1px solid #e5e5e5;
+    padding: 24px 0;
+
+    &:last-child {
+      border-bottom: 1px solid #e5e5e5;
+    }
+  }
+}
+
+.Bottom {
+  width: 300px;
+  margin-top: 32px;
+}
+
+.Numbers {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 4px;
+  row-gap: 8px;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.property {
+  font-weight: 400;
+
+  &.bold {
+    font-weight: 500;
+  }
+}
+
+.value {
+  font-weight: 700;
+}

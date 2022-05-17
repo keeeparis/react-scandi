@@ -2,17 +2,20 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
+import cn from 'classnames'
 import { decrement, increment } from '../../redux/slices/cartSlice'
 import { AppDispatch, RootState } from '../../redux/store/store'
 import { Currency, ProductInCart } from '../../redux/types'
 import { selectPriceInCurrentCurrency } from '../../utils/selectPriceInCurrentCurrency'
 import AttributeItem from '../AttributeItem'
 import styles from './CartOverlayItem.module.scss'
+import Slider from '../Slider'
 
 interface CartOverlayItemProps {
   item: ProductInCart
   count: number
   currentCurrency: Currency
+  size: 'sm' | 'lg'
 }
 
 const mapStateToProps = (state: RootState) => ({})
@@ -28,8 +31,16 @@ type DispatchProps = ReturnType<typeof mapDispatchToProps>
 type Props = StateProps & DispatchProps & CartOverlayItemProps
 
 export class CartOverlayItem extends PureComponent<Props, unknown> {
+  classLg = () => {
+    const { size } = this.props
+
+    return {
+      [styles.lg]: size === 'lg',
+    }
+  }
+
   render() {
-    const { item, count, currentCurrency, decrementItem, incrementItem } =
+    const { item, count, currentCurrency, decrementItem, incrementItem, size } =
       this.props
 
     const price = selectPriceInCurrentCurrency(item, currentCurrency)
@@ -37,16 +48,16 @@ export class CartOverlayItem extends PureComponent<Props, unknown> {
     const toFixedPrice = totalPrice.toFixed(2)
 
     return (
-      <div className={styles.Inner}>
+      <div className={cn(styles.Inner, this.classLg())}>
         <div className={styles.Data}>
           <div className={styles.DataWrapper}>
             <div className={styles.NameWrapper}>
-              <div className={styles.Name}>
+              <div className={cn(styles.Name, this.classLg())}>
                 <span>{item.brand}</span>
                 <span>{item.name}</span>
               </div>
 
-              <span className={styles.Price}>
+              <span className={cn(styles.Price, this.classLg())}>
                 {price.currency.symbol} {toFixedPrice}
               </span>
             </div>
@@ -59,21 +70,31 @@ export class CartOverlayItem extends PureComponent<Props, unknown> {
                     attrSet={el}
                     selectedAttributes={item.selectedAttributes}
                     readonly
-                    size="sm"
+                    size={size}
                   />
                 ))}
             </div>
           </div>
 
-          <div className={styles.Actions}>
-            <div className={styles.Plus} onClick={incrementItem(item)} />
+          <div className={cn(styles.Actions, this.classLg())}>
+            <div
+              className={cn(styles.Plus, this.classLg())}
+              onClick={incrementItem(item)}
+            />
             {count}
-            <div className={styles.Minus} onClick={decrementItem(item)} />
+            <div
+              className={cn(styles.Minus, this.classLg())}
+              onClick={decrementItem(item)}
+            />
           </div>
         </div>
 
-        <div className={styles.ImageWrapper}>
-          <img src={item.gallery[0]} alt="" />
+        <div className={cn(styles.ImageWrapper, this.classLg())}>
+          {size === 'lg' ? (
+            <Slider images={item.gallery} />
+          ) : (
+            <img src={item.gallery[0]} alt="" />
+          )}
         </div>
       </div>
     )
@@ -91,5 +112,3 @@ const connector = connect<
 )(CartOverlayItem)
 
 export default connector
-
-// export default CartOverlayItem

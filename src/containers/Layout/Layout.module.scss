@@ -1,9 +1,6 @@
 @use '../../styles/mixins';
 
 .Container {
-  // max-width: 1440px;
-  margin-inline: auto;
-
   &::after {
     content: '';
   }
@@ -26,6 +23,12 @@
 
 .Wrapper {
   margin-top: 80px;
-  // margin-bottom: 80px;
-  @include mixins.margin-inline;
+  width: 100%;
+  padding-bottom: 80px;
+}
+
+.Inner {
+  margin: auto;
+  @include mixins.padding-inline-100;
+  @include mixins.max-width-1440;
 }

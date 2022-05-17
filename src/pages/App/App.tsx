@@ -16,12 +16,23 @@ interface AppProps {
 }
 
 export class App extends PureComponent<AppProps, unknown> {
+  componentDidMount() {
+    const { fetchProductList, category } = this.props
+    /* When we enter index page - current category 
+    has not been fetched and so we don't fetch products list. 
+    When we enter index page from another page, we fetch
+    products because current category exists after it had been fetched 
+    in <CategoriesNav />. */
+    if (category.name) {
+      fetchProductList()
+    }
+  }
+
   componentDidUpdate(prev: AppProps) {
     const { fetchProductList, category } = this.props
-    /* In pureComponent shouldComponentUpdate works automatically
-    if props change. When category changes, in componentDidUpdate
-    we compare previous and current value of category and if they are 
-    different, we fetch new products list */
+    /* When category changes we compare previous and 
+    current value of category and if they are different,
+    we fetch new products list */
     if (prev.category !== category) {
       fetchProductList()
     }

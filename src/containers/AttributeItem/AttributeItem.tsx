@@ -1,12 +1,11 @@
-/* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable no-nested-ternary */
 import { DeepReadonlyObject } from '@tilework/opus'
-import cn from 'classnames'
 import React, { PureComponent } from 'react'
+import cn from 'classnames'
 import { v4 as uuid } from 'uuid'
-import { Attribute, AttributeSet } from '../../redux/types'
+import { AttributeSet } from '../../redux/types'
 import { AttributesPopUpProps } from '../AttributesPopUp/types'
 import styles from './AttributeItem.module.scss'
+import { label, stylesCn } from './utils'
 
 interface AttributeItemProps {
   attrSet: DeepReadonlyObject<AttributeSet>
@@ -31,42 +30,17 @@ export class AttributeItem extends PureComponent<AttributeItemProps, unknown> {
     const { attrSet, selectedAttributes, handleInputChange, readonly, size } =
       this.props
 
-    /** Function returns label that depends on attribute type */
-    const label = (
-      attributeSet: DeepReadonlyObject<AttributeSet>,
-      attribute: DeepReadonlyObject<Attribute>
-    ) =>
-      attributeSet.type !== 'swatch' ? (
-        attributeSet.name === 'Size' ? (
-          <span>{attribute.value}</span>
-        ) : (
-          <span>{attribute.displayValue}</span>
-        )
-      ) : null
-
-    /** Function returns style class that depends on attribute type */
-    const stylesCn = (attributeSet: DeepReadonlyObject<AttributeSet>) =>
-      attributeSet.type === 'swatch'
-        ? cn(
-            styles.Color,
-            { [styles.sm]: size === 'sm' },
-            { [styles.lg]: size === 'lg' }
-          )
-        : attributeSet.name === 'Size'
-        ? cn(
-            styles.Size,
-            { [styles.sm]: size === 'sm' },
-            { [styles.lg]: size === 'lg' }
-          )
-        : styles.Text
-
     return (
       <div>
-        <div className={styles.AttributeName}>{attrSet.name}:</div>
+        <div
+          className={cn(styles.AttributeName, { [styles.lg]: size === 'lg' })}
+        >
+          {attrSet.name}:
+        </div>
 
         <div className={styles.Wrapper}>
           {attrSet.items.map((attribute) => (
-            <div key={attribute.id} className={stylesCn(attrSet)}>
+            <div key={attribute.id} className={stylesCn(attrSet, size)}>
               <input
                 type="radio"
                 id={`${attribute.id}${attrSet.name}`}
@@ -89,7 +63,7 @@ export class AttributeItem extends PureComponent<AttributeItemProps, unknown> {
                     : undefined
                 }
               >
-                {label(attrSet, attribute)}
+                <span>{label(attrSet, attribute)}</span>
               </label>
             </div>
           ))}

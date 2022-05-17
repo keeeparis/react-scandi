@@ -1,7 +1,7 @@
 import cn from 'classnames'
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
-import { Navigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import {
   fetchCategories,
   updateCurrentCategory,
@@ -52,21 +52,20 @@ export class CategoriesNav extends PureComponent<CategoriesNavProps, unknown> {
     return (
       <>
         {categories.map((category) => (
-          <div
-            className={cn(styles.CategoryItem, {
-              [styles.active]: category.name === currentCategory.name,
-            })}
-            key={category.name}
-            onClick={this.handleClickOnCategory.bind(this, category)}
-            onKeyDown={this.handleKeyDownOnCategory.bind(this, category)}
-            role="menuitem"
-            tabIndex={0}
-          >
-            {category.name}
-          </div>
+          <Link to="/" key={category.name}>
+            <div
+              className={cn(styles.CategoryItem, {
+                [styles.active]: category.name === currentCategory.name,
+              })}
+              onClick={this.handleClickOnCategory.bind(this, category)}
+              onKeyDown={this.handleKeyDownOnCategory.bind(this, category)}
+              role="menuitem"
+              tabIndex={0}
+            >
+              {category.name}
+            </div>
+          </Link>
         ))}
-        {/* <Navigate to="/" /> */}
-        {/* TODO: navigate from product pagae */}
       </>
     )
   }
