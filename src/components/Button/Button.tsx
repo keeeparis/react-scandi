@@ -7,6 +7,7 @@ interface ButtonProps {
   children: ReactNode
   onClick: () => void
   fill?: boolean
+  disabled?: boolean
 }
 
 export class Button extends PureComponent<ButtonProps, unknown> {

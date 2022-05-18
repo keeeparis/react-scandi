@@ -1,34 +1,16 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
+import cn from 'classnames'
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
-import cn from 'classnames'
 import { decrement, increment } from '../../redux/slices/cartSlice'
 import { AppDispatch, RootState } from '../../redux/store/store'
-import { Currency, ProductInCart } from '../../redux/types'
+import { ProductInCart } from '../../redux/types'
 import { selectPriceInCurrentCurrency } from '../../utils/selectPriceInCurrentCurrency'
 import AttributeItem from '../AttributeItem'
-import styles from './CartOverlayItem.module.scss'
 import Slider from '../Slider'
-
-interface CartOverlayItemProps {
-  item: ProductInCart
-  count: number
-  currentCurrency: Currency
-  size: 'sm' | 'lg'
-}
-
-const mapStateToProps = (state: RootState) => ({})
-
-const mapDispatchToProps = (dispatch: AppDispatch) => ({
-  incrementItem: (item: ProductInCart) => () => dispatch(increment(item)),
-  decrementItem: (item: ProductInCart) => () => dispatch(decrement(item)),
-})
-
-type StateProps = ReturnType<typeof mapStateToProps>
-type DispatchProps = ReturnType<typeof mapDispatchToProps>
-
-type Props = StateProps & DispatchProps & CartOverlayItemProps
+import styles from './CartOverlayItem.module.scss'
+import { CartOverlayItemProps, DispatchProps, Props } from './types'
 
 export class CartOverlayItem extends PureComponent<Props, unknown> {
   classLg = () => {
@@ -105,13 +87,18 @@ export class CartOverlayItem extends PureComponent<Props, unknown> {
   }
 }
 
+export const mapDispatchToProps = (dispatch: AppDispatch) => ({
+  incrementItem: (item: ProductInCart) => () => dispatch(increment(item)),
+  decrementItem: (item: ProductInCart) => () => dispatch(decrement(item)),
+})
+
 const connector = connect<
-  StateProps,
+  unknown,
   DispatchProps,
   CartOverlayItemProps,
   RootState
 >(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(CartOverlayItem)
 

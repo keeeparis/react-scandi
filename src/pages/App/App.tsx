@@ -5,17 +5,10 @@ import Spinner from '../../components/Spinner'
 import ProductItem from '../../containers/ProductItem'
 import { fetchProducts } from '../../redux/slices/productsSlice'
 import { AppDispatch, RootState } from '../../redux/store/store'
-import { CategoryType, ProductsType, Status } from '../../redux/types'
 import styles from './App.module.scss'
+import { DispatchProps, Props, StateProps } from './types'
 
-interface AppProps {
-  fetchProductList: () => void
-  category: CategoryType['current_category']
-  products: ProductsType['products']
-  status: Status
-}
-
-export class App extends PureComponent<AppProps, unknown> {
+export class App extends PureComponent<Props, unknown> {
   componentDidMount() {
     const { fetchProductList, category } = this.props
     /* When we enter index page - current category 
@@ -28,7 +21,7 @@ export class App extends PureComponent<AppProps, unknown> {
     }
   }
 
-  componentDidUpdate(prev: AppProps) {
+  componentDidUpdate(prev: Props) {
     const { fetchProductList, category } = this.props
     /* When category changes we compare previous and 
     current value of category and if they are different,
@@ -59,14 +52,17 @@ export class App extends PureComponent<AppProps, unknown> {
   }
 }
 
-const mapStateToProps = (state: RootState) => ({
+export const mapStateToProps = (state: RootState) => ({
   category: state.categories.current_category,
   products: state.products.products,
   status: state.products.status,
 })
 
-const mapDispatchToProps = (dispatch: AppDispatch) => ({
+export const mapDispatchToProps = (dispatch: AppDispatch) => ({
   fetchProductList: () => dispatch(fetchProducts(null)),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+export default connect<StateProps, DispatchProps, unknown, RootState>(
+  mapStateToProps,
+  mapDispatchToProps
+)(App)

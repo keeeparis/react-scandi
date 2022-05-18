@@ -9,6 +9,14 @@
   }
 }
 
+.Color,
+.Size,
+.Text {
+  label {
+    cursor: pointer;
+  }
+}
+
 .Color {
   input {
     display: none;
@@ -71,6 +79,10 @@
   display: flex;
   align-items: center;
   gap: 5px;
+
+  input {
+    cursor: pointer;
+  }
 }
 
 .Wrapper {

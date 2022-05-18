@@ -7,26 +7,13 @@ import {
   updateCurrentCurrency,
 } from '../../redux/slices/currencySlice'
 import { AppDispatch, RootState } from '../../redux/store/store'
-import { CurrencySliceType, Currency } from '../../redux/types'
+import { Currency } from '../../redux/types'
 import KeyboardEvent from '../../utils/KeyboardEvent'
 import styles from './CurrencyNav.module.scss'
+import { CurrencyNavState, DispatchProps, Props, StateProps } from './types'
 
-interface CurrencyNavProps {
-  fetchCurrencyList: () => void
-  updateCurrency: (currency: Currency) => void
-  currencies: CurrencySliceType['currencies']
-  currentCurrency: Currency
-}
-
-interface CurrencyNavState {
-  isOptionsVisible: boolean
-}
-
-export class CurrencyNav extends PureComponent<
-  CurrencyNavProps,
-  CurrencyNavState
-> {
-  constructor(props: CurrencyNavProps) {
+export class CurrencyNav extends PureComponent<Props, CurrencyNavState> {
+  constructor(props: Props) {
     super(props)
     this.state = { isOptionsVisible: false }
   }
@@ -124,15 +111,18 @@ export class CurrencyNav extends PureComponent<
   }
 }
 
-const mapStateToProps = (state: RootState) => ({
+export const mapStateToProps = (state: RootState) => ({
   currencies: state.currency.currencies,
   currentCurrency: state.currency.currentCurrency,
 })
 
-const mapDispatchToProps = (dispatch: AppDispatch) => ({
+export const mapDispatchToProps = (dispatch: AppDispatch) => ({
   fetchCurrencyList: () => dispatch(fetchCurrencies()),
   updateCurrency: (currency: Currency) =>
     dispatch(updateCurrentCurrency(currency)),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(CurrencyNav)
+export default connect<StateProps, DispatchProps, unknown, RootState>(
+  mapStateToProps,
+  mapDispatchToProps
+)(CurrencyNav)

@@ -9,6 +9,10 @@
   line-height: 16.8px;
   cursor: pointer;
   width: 100%;
+
+  &:disabled {
+    cursor: no-drop;
+  }
 }
 
 .Fill {

@@ -4,6 +4,7 @@ import React, { FormEvent, MouseEvent, PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import ClickOutside from '../../components/ClickOutside'
+import PriceProduct from '../../components/PriceProduct'
 import { addItemToCart } from '../../redux/slices/cartSlice'
 import { close, toggle } from '../../redux/slices/modalSlice'
 import { AppDispatch, RootState } from '../../redux/store/store'
@@ -13,16 +14,9 @@ import {
   SelectedAttributesType,
 } from '../../redux/types'
 import { KeyofOnlyString, ValueOf } from '../../types'
-import { selectPriceInCurrentCurrency } from '../../utils/selectPriceInCurrentCurrency'
 import AttributesPopUp from '../AttributesPopUp'
 import styles from './ProductItem.module.scss'
-import {
-  DispatchProps,
-  OwnProps,
-  ProductItemState,
-  Props,
-  StateProps,
-} from './types'
+import { DispatchProps, OwnProps, ProductItemState, Props } from './types'
 
 class ProductItem extends PureComponent<Props, ProductItemState> {
   constructor(props: Props) {
@@ -98,10 +92,8 @@ class ProductItem extends PureComponent<Props, ProductItemState> {
     }
 
   render() {
-    const { product, currentCurrency } = this.props
+    const { product } = this.props
     const { isPopUp, selectedAttributes } = this.state
-
-    const price = selectPriceInCurrentCurrency(product, currentCurrency)
 
     return (
       <article className={styles.Container}>
@@ -127,8 +119,7 @@ class ProductItem extends PureComponent<Props, ProductItemState> {
 
             {/* Price */}
             <div className={styles.Price}>
-              <span>{price.currency.symbol}</span>
-              <span>{price.amount}</span>
+              <PriceProduct product={product} />
             </div>
 
             {/* AddToCart Button */}
@@ -158,18 +149,14 @@ class ProductItem extends PureComponent<Props, ProductItemState> {
   }
 }
 
-export const mapStateToProps = (state: RootState) => ({
-  currentCurrency: state.currency.currentCurrency,
-})
-
 export const mapDispatchToProps = (dispatch: AppDispatch) => ({
   addToCart: (product: ProductInCart) => dispatch(addItemToCart(product)),
   toggleModal: () => dispatch(toggle()),
   closeModal: () => dispatch(close()),
 })
 
-const connector = connect<StateProps, DispatchProps, OwnProps, RootState>(
-  mapStateToProps,
+const connector = connect<unknown, DispatchProps, OwnProps, RootState>(
+  null,
   mapDispatchToProps
 )(ProductItem)
 
