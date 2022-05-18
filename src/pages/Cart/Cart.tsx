@@ -1,37 +1,18 @@
+/* eslint-disable no-alert */
+import cn from 'classnames'
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
-import cn from 'classnames'
 import Button from '../../components/Button'
 import CartOverlayItem from '../../containers/CartOverlayItem'
-import { AppDispatch, RootState } from '../../redux/store/store'
-import { selectPriceInCurrentCurrency } from '../../utils/selectPriceInCurrentCurrency'
+import {
+  selectAmountOfItemsInCart,
+  selectTotalPrice,
+} from '../../redux/selectors'
+import { RootState } from '../../redux/store/store'
 import styles from './Cart.module.scss'
+import { StateProps } from './types'
 
-const mapStateToProps = (state: RootState) => ({
-  amountOfItemsInCart: state.cart.items.reduce(
-    (total, { count }) => total + count,
-    0
-  ),
-  totalPrice: state.cart.items.reduce(
-    (total, { count, item }) =>
-      total +
-      count *
-        selectPriceInCurrentCurrency(item, state.currency.currentCurrency)
-          .amount,
-    0
-  ),
-  items: state.cart.items,
-  currentCurrency: state.currency.currentCurrency,
-})
-
-const mapDispatchToProps = (dispatch: AppDispatch) => ({})
-
-type StateProps = ReturnType<typeof mapStateToProps>
-type DispatchProps = ReturnType<typeof mapDispatchToProps>
-
-type Props = StateProps & DispatchProps
-
-export class Cart extends PureComponent<Props, unknown> {
+export class Cart extends PureComponent<StateProps, unknown> {
   render() {
     const { items, amountOfItemsInCart, currentCurrency, totalPrice } =
       this.props
@@ -77,7 +58,8 @@ export class Cart extends PureComponent<Props, unknown> {
               {currentCurrency.symbol} {totalPriceFixed}
             </div>
           </div>
-          <Button fill onClick={() => console.log('Finish!')}>
+
+          <Button fill onClick={() => alert('Finish!')}>
             Order
           </Button>
         </div>
@@ -86,9 +68,16 @@ export class Cart extends PureComponent<Props, unknown> {
   }
 }
 
-const connector = connect<StateProps, DispatchProps, unknown, RootState>(
+export const mapStateToProps = (state: RootState) => ({
+  amountOfItemsInCart: selectAmountOfItemsInCart(state),
+  totalPrice: selectTotalPrice(state),
+  items: state.cart.items,
+  currentCurrency: state.currency.currentCurrency,
+})
+
+const connector = connect<StateProps, unknown, unknown, RootState>(
   mapStateToProps,
-  mapDispatchToProps
+  null
 )(Cart)
 
 export default connector

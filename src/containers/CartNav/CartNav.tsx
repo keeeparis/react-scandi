@@ -1,32 +1,13 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import ClickOutside from '../../components/ClickOutside'
+import { selectAmountOfItemsInCart } from '../../redux/selectors'
 import { close, toggle } from '../../redux/slices/modalSlice'
 import { AppDispatch, RootState } from '../../redux/store/store'
 import KeyboardEvent from '../../utils/KeyboardEvent'
 import CartOverlay from '../CartOverlay/CartOverlay'
 import Container from './Container'
-
-interface CartNavState {
-  isCartOverlay: boolean
-}
-
-const mapStateToProps = (state: RootState) => ({
-  amountOfItemsInCart: state.cart.items.reduce(
-    (total, { count }) => total + count,
-    0
-  ),
-})
-
-const mapDispatchToProps = (dispatch: AppDispatch) => ({
-  toggleModal: () => dispatch(toggle()),
-  closeModal: () => dispatch(close()),
-})
-
-type StateProps = ReturnType<typeof mapStateToProps>
-type DispatchProps = ReturnType<typeof mapDispatchToProps>
-
-type Props = StateProps & DispatchProps
+import { CartNavState, DispatchProps, Props, StateProps } from './types'
 
 export class CartNav extends PureComponent<Props, CartNavState> {
   constructor(props: Props) {
@@ -86,6 +67,15 @@ export class CartNav extends PureComponent<Props, CartNavState> {
     )
   }
 }
+
+export const mapStateToProps = (state: RootState) => ({
+  amountOfItemsInCart: selectAmountOfItemsInCart(state),
+})
+
+export const mapDispatchToProps = (dispatch: AppDispatch) => ({
+  toggleModal: () => dispatch(toggle()),
+  closeModal: () => dispatch(close()),
+})
 
 const connector = connect<StateProps, DispatchProps, unknown, RootState>(
   mapStateToProps,

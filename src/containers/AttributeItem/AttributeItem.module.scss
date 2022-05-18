@@ -9,6 +9,14 @@
   }
 }
 
+.Color,
+.Size,
+.Text {
+  label {
+    cursor: pointer;
+  }
+}
+
 .Color {
   input {
     display: none;
@@ -56,13 +64,13 @@
   }
 
   &.lg label {
-    width: 30px;
-    height: 30px;
+    width: 63px;
+    height: 45px;
   }
 
   &.sm label {
-    width: 20px;
-    height: 20px;
+    width: 24px;
+    height: 24px;
     font-size: 14px;
   }
 }
@@ -71,6 +79,10 @@
   display: flex;
   align-items: center;
   gap: 5px;
+
+  input {
+    cursor: pointer;
+  }
 }
 
 .Wrapper {

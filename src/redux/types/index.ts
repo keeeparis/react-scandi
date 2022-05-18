@@ -78,3 +78,8 @@ export interface ProductInCart extends Product {
 export interface cartSliceProps {
   items: { item: ProductInCart; count: number }[]
 }
+
+export interface ProductSliceType {
+  item: Product | null
+  status: Status
+}

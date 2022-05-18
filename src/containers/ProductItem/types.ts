@@ -1,5 +1,5 @@
 import { Product, SelectedAttributesType } from '../../redux/types'
-import { mapDispatchToProps, mapStateToProps } from './ProductItem'
+import { mapDispatchToProps } from './ProductItem'
 
 export interface OwnProps {
   product: Product
@@ -10,6 +10,5 @@ export interface ProductItemState {
   selectedAttributes: SelectedAttributesType
 }
 
-export type StateProps = ReturnType<typeof mapStateToProps>
 export type DispatchProps = ReturnType<typeof mapDispatchToProps>
-export type Props = StateProps & DispatchProps & OwnProps
+export type Props = DispatchProps & OwnProps

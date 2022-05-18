@@ -2,38 +2,14 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import Button from '../../components/Button'
-import { AppDispatch, RootState } from '../../redux/store/store'
-import { selectPriceInCurrentCurrency } from '../../utils/selectPriceInCurrentCurrency'
+import {
+  selectAmountOfItemsInCart,
+  selectTotalPrice,
+} from '../../redux/selectors'
+import { RootState } from '../../redux/store/store'
 import CartOverlayItem from '../CartOverlayItem/CartOverlayItem'
 import styles from './CartOverlay.module.scss'
-
-interface OwnProps {
-  closeCartOverlay: () => void
-}
-
-const mapStateToProps = (state: RootState) => ({
-  amountOfItemsInCart: state.cart.items.reduce(
-    (total, { count }) => total + count,
-    0
-  ),
-  totalPrice: state.cart.items.reduce(
-    (total, { count, item }) =>
-      total +
-      count *
-        selectPriceInCurrentCurrency(item, state.currency.currentCurrency)
-          .amount,
-    0
-  ),
-  items: state.cart.items,
-  currentCurrency: state.currency.currentCurrency,
-})
-
-const mapDispatchToProps = (dispatch: AppDispatch) => ({})
-
-type StateProps = ReturnType<typeof mapStateToProps>
-type DispatchProps = ReturnType<typeof mapDispatchToProps>
-
-type Props = StateProps & DispatchProps & OwnProps
+import { Props, StateProps } from './types'
 
 class CartOverlay extends PureComponent<Props, unknown> {
   render() {
@@ -98,9 +74,16 @@ class CartOverlay extends PureComponent<Props, unknown> {
   }
 }
 
-const connector = connect<StateProps, DispatchProps, unknown, RootState>(
+export const mapStateToProps = (state: RootState) => ({
+  amountOfItemsInCart: selectAmountOfItemsInCart(state),
+  totalPrice: selectTotalPrice(state),
+  items: state.cart.items,
+  currentCurrency: state.currency.currentCurrency,
+})
+
+const connector = connect<StateProps, unknown, unknown, RootState>(
   mapStateToProps,
-  mapDispatchToProps
+  null
 )(CartOverlay)
 
 export default connector

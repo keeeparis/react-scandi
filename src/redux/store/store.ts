@@ -4,6 +4,7 @@ import currencyReducer from '../slices/currencySlice'
 import cartReducer from '../slices/cartSlice'
 import categoriesReducer from '../slices/categoriesSlice'
 import productsReducer from '../slices/productsSlice'
+import productReducer from '../slices/productSlice'
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
     categories: categoriesReducer,
     currency: currencyReducer,
     modal: modalReducer,
+    product: productReducer,
   },
 })
 

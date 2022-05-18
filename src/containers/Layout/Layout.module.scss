@@ -1,6 +1,8 @@
 @use '../../styles/mixins';
 
 .Container {
+  min-height: 100vh;
+
   &::after {
     content: '';
   }

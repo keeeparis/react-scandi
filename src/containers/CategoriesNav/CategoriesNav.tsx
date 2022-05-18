@@ -7,18 +7,12 @@ import {
   updateCurrentCategory,
 } from '../../redux/slices/categoriesSlice'
 import { AppDispatch, RootState } from '../../redux/store/store'
-import { Category, CategoryType } from '../../redux/types'
+import { Category } from '../../redux/types'
 import KeyboardEvent from '../../utils/KeyboardEvent'
 import styles from './CategoryNav.module.scss'
+import { DispatchProps, Props, StateProps } from './types'
 
-interface CategoriesNavProps {
-  fetchCategoryList: () => void
-  updateCategory: (category: Category) => void
-  categories: CategoryType['categories']
-  currentCategory: Category
-}
-
-export class CategoriesNav extends PureComponent<CategoriesNavProps, unknown> {
+export class CategoriesNav extends PureComponent<Props, unknown> {
   componentDidMount() {
     const { fetchCategoryList } = this.props
     fetchCategoryList()
@@ -71,15 +65,18 @@ export class CategoriesNav extends PureComponent<CategoriesNavProps, unknown> {
   }
 }
 
-const mapStateToProps = (state: RootState) => ({
+export const mapStateToProps = (state: RootState) => ({
   categories: state.categories.categories,
   currentCategory: state.categories.current_category,
 })
 
-const mapDispatchToProps = (dispatch: AppDispatch) => ({
+export const mapDispatchToProps = (dispatch: AppDispatch) => ({
   fetchCategoryList: () => dispatch(fetchCategories()),
   updateCategory: (category: Category) =>
     dispatch(updateCurrentCategory(category)),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(CategoriesNav)
+export default connect<StateProps, DispatchProps, unknown, RootState>(
+  mapStateToProps,
+  mapDispatchToProps
+)(CategoriesNav)

@@ -5,12 +5,7 @@ import { Outlet } from 'react-router-dom'
 import { RootState } from '../../redux/store/store'
 import Navigation from '../Navigation'
 import styles from './Layout.module.scss'
-
-export const mapStateToProps = (state: RootState) => ({
-  isModalActive: state.modal.isModal,
-})
-
-type StateProps = ReturnType<typeof mapStateToProps>
+import { StateProps } from './types'
 
 export class Layout extends PureComponent<StateProps, unknown> {
   render() {
@@ -32,6 +27,10 @@ export class Layout extends PureComponent<StateProps, unknown> {
     )
   }
 }
+
+export const mapStateToProps = (state: RootState) => ({
+  isModalActive: state.modal.isModal,
+})
 
 const connector = connect<StateProps, unknown, unknown, RootState>(
   mapStateToProps,

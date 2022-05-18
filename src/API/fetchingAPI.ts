@@ -14,6 +14,26 @@ import {
  * Class FetchingAPI handles api requests
  */
 class FetchingAPI {
+  productFields: Readonly<ProductKeys>
+
+  attributesFields: Readonly<AttributeSetKeys>
+
+  attributeFields: Readonly<AttributeKeys>
+
+  constructor() {
+    this.productFields = [
+      'name',
+      'id',
+      'inStock',
+      'gallery',
+      'description',
+      'category',
+      'brand',
+    ]
+    this.attributesFields = ['id', 'name', 'type']
+    this.attributeFields = ['id', 'value', 'displayValue']
+  }
+
   #createCategoriesQuery() {
     const query = new Query('categories', true).addField(new Field('name'))
     return query
@@ -35,33 +55,19 @@ class FetchingAPI {
   }
 
   #createProductsQuery(currentCategory: Category) {
-    const productFields: Readonly<ProductKeys> = [
-      'name',
-      'id',
-      'inStock',
-      'gallery',
-      'description',
-      'category',
-      'brand',
-    ]
-    const attributesFields: Readonly<AttributeSetKeys> = ['id', 'name', 'type']
-    const attributeFields: Readonly<AttributeKeys> = [
-      'id',
-      'value',
-      'displayValue',
-    ]
-
     const query = new Query('category')
       .addArgument('input', 'CategoryInput', {
         title: currentCategory.name,
       })
       .addField(
         new Field('products', true)
-          .addFieldList(productFields)
+          .addFieldList(this.productFields)
           .addField(
             new Field('attributes', true)
-              .addFieldList(attributesFields)
-              .addField(new Field('items', true).addFieldList(attributeFields))
+              .addFieldList(this.attributesFields)
+              .addField(
+                new Field('items', true).addFieldList(this.attributeFields)
+              )
           )
           .addField(
             new Field('prices', true)
@@ -108,6 +114,34 @@ class FetchingAPI {
     } = await client.post(query)
 
     return currencies
+  }
+
+  #createProductQuery(id: string) {
+    const query = new Query('product')
+      .addArgument('id', 'String!', id)
+      .addFieldList(this.productFields)
+      .addField(
+        new Field('attributes', true)
+          .addFieldList(this.attributesFields)
+          .addField(new Field('items', true).addFieldList(this.attributeFields))
+      )
+      .addField(
+        new Field('prices', true)
+          .addField('amount')
+          .addField(new Field('currency').addField('label').addField('symbol'))
+      )
+
+    return query
+  }
+
+  /**
+   * Get product by Id from API.
+   */
+  async fetchProductById(id: string) {
+    const query = this.#createProductQuery(id)
+
+    const { product } = await client.post(query)
+    return product
   }
 }
 
