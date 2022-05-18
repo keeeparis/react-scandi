@@ -5,16 +5,16 @@ import ClickOutside from '../../components/ClickOutside'
 import {
   fetchCurrencies,
   updateCurrentCurrency,
-} from '../../redux/slices/baseSlice'
+} from '../../redux/slices/currencySlice'
 import { AppDispatch, RootState } from '../../redux/store/store'
-import { BaseSliceType, Currency } from '../../redux/types'
+import { CurrencySliceType, Currency } from '../../redux/types'
 import KeyboardEvent from '../../utils/KeyboardEvent'
 import styles from './CurrencyNav.module.scss'
 
 interface CurrencyNavProps {
   fetchCurrencyList: () => void
   updateCurrency: (currency: Currency) => void
-  currencies: BaseSliceType['currencies']
+  currencies: CurrencySliceType['currencies']
   currentCurrency: Currency
 }
 
@@ -125,8 +125,8 @@ export class CurrencyNav extends PureComponent<
 }
 
 const mapStateToProps = (state: RootState) => ({
-  currencies: state.base.currencies,
-  currentCurrency: state.base.currentCurrency,
+  currencies: state.currency.currencies,
+  currentCurrency: state.currency.currentCurrency,
 })
 
 const mapDispatchToProps = (dispatch: AppDispatch) => ({

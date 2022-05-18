@@ -159,7 +159,7 @@ class ProductItem extends PureComponent<Props, ProductItemState> {
 }
 
 export const mapStateToProps = (state: RootState) => ({
-  currentCurrency: state.base.currentCurrency,
+  currentCurrency: state.currency.currentCurrency,
 })
 
 export const mapDispatchToProps = (dispatch: AppDispatch) => ({

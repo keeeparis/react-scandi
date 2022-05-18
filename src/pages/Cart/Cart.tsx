@@ -16,11 +16,12 @@ const mapStateToProps = (state: RootState) => ({
     (total, { count, item }) =>
       total +
       count *
-        selectPriceInCurrentCurrency(item, state.base.currentCurrency).amount,
+        selectPriceInCurrentCurrency(item, state.currency.currentCurrency)
+          .amount,
     0
   ),
   items: state.cart.items,
-  currentCurrency: state.base.currentCurrency,
+  currentCurrency: state.currency.currentCurrency,
 })
 
 const mapDispatchToProps = (dispatch: AppDispatch) => ({})
@@ -76,7 +77,7 @@ export class Cart extends PureComponent<Props, unknown> {
               {currentCurrency.symbol} {totalPriceFixed}
             </div>
           </div>
-          <Button fill onClick={() => console.log('a')}>
+          <Button fill onClick={() => console.log('Finish!')}>
             Order
           </Button>
         </div>

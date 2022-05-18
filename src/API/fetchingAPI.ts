@@ -2,7 +2,7 @@ import { client, Field, Query } from '@tilework/opus'
 import {
   AttributeKeys,
   AttributeSetKeys,
-  BaseSliceType,
+  CurrencySliceType,
   Category,
   CategoryType,
   CurrencyKeys,
@@ -104,7 +104,7 @@ class FetchingAPI {
     const {
       currencies,
     }: {
-      currencies: BaseSliceType['currencies']
+      currencies: CurrencySliceType['currencies']
     } = await client.post(query)
 
     return currencies

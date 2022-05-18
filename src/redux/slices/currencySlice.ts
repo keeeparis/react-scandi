@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import FetchingAPI from '../../API/fetchingAPI'
-import { BaseSliceType } from '../types'
+import { CurrencySliceType } from '../types'
 
-const initialState: BaseSliceType = {
+const initialState: CurrencySliceType = {
   currencies: [],
   currentCurrency: { label: '', symbol: '' },
   status: 'idle',

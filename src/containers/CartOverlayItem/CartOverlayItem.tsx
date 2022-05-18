@@ -51,6 +51,7 @@ export class CartOverlayItem extends PureComponent<Props, unknown> {
       <div className={cn(styles.Inner, this.classLg())}>
         <div className={styles.Data}>
           <div className={styles.DataWrapper}>
+            {/* Name and Price */}
             <div className={styles.NameWrapper}>
               <div className={cn(styles.Name, this.classLg())}>
                 <span>{item.brand}</span>
@@ -62,6 +63,7 @@ export class CartOverlayItem extends PureComponent<Props, unknown> {
               </span>
             </div>
 
+            {/* Attributes */}
             <div className={styles.Attributes}>
               {item.attributes &&
                 item.attributes.map((el) => (
@@ -76,6 +78,7 @@ export class CartOverlayItem extends PureComponent<Props, unknown> {
             </div>
           </div>
 
+          {/* Plus and Minus Signs */}
           <div className={cn(styles.Actions, this.classLg())}>
             <div
               className={cn(styles.Plus, this.classLg())}
@@ -89,6 +92,7 @@ export class CartOverlayItem extends PureComponent<Props, unknown> {
           </div>
         </div>
 
+        {/* Image Slider */}
         <div className={cn(styles.ImageWrapper, this.classLg())}>
           {size === 'lg' ? (
             <Slider images={item.gallery} />

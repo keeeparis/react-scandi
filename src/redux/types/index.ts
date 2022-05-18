@@ -61,7 +61,7 @@ export interface ProductsType {
   status: Status
 }
 
-export interface BaseSliceType {
+export interface CurrencySliceType {
   currencies: DeepReadonlyArray<Currency>
   currentCurrency: Currency
   status: Status
