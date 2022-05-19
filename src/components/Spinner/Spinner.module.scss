@@ -1,80 +1,219 @@
+@function toSizeSM($value) {
+  @return calc($value / 5);
+}
+
+@function toSizeMD($value) {
+  @return calc($value / 3);
+}
+
+@mixin dot($top, $left) {
+  top: $top;
+  left: $left;
+}
+/* Wrapper */
 .ldsRoller {
   display: inline-block;
   position: relative;
-  width: 80px;
-  height: 80px;
+  $width: 80px;
+  $height: 80px;
+  width: $width;
+  height: $height;
   margin-inline: auto;
+
+  &.sm {
+    width: toSizeSM($width);
+    height: toSizeSM($height);
+  }
+
+  &.md {
+    width: toSizeMD($width);
+    height: toSizeMD($height);
+  }
 }
-.ldsRoller div {
-  animation: ldsRoller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-  transform-origin: 40px 40px;
+/* Transform-origin */
+.ldsRoller {
+  $value: 40px;
+  div {
+    animation: ldsRoller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+    transform-origin: $value $value;
+  }
+  &.sm div {
+    transform-origin: toSizeSM($value) toSizeSM($value);
+  }
+  &.md div {
+    transform-origin: toSizeMD($value) toSizeMD($value);
+  }
 }
-.ldsRoller div:after {
-  content: ' ';
-  display: block;
-  position: absolute;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #000;
-  margin: -4px 0 0 -4px;
+/* Dots size */
+.ldsRoller {
+  $value: 7px;
+  $margin: -4px;
+
+  div:after {
+    content: ' ';
+    display: block;
+    position: absolute;
+    width: $value;
+    height: $value;
+    border-radius: 50%;
+    background: #000;
+    margin: $margin 0 0 $margin;
+  }
+  &.sm div::after {
+    width: toSizeSM($value);
+    height: toSizeSM($value);
+    margin: toSizeSM($margin) 0 0 toSizeSM($margin);
+  }
+  &.md div::after {
+    width: toSizeMD($value);
+    height: toSizeMD($value);
+    margin: toSizeMD($margin) 0 0 toSizeMD($margin);
+  }
 }
-.ldsRoller div:nth-child(1) {
-  animation-delay: -0.036s;
+
+/* 1 */
+.ldsRoller {
+  $top: 63px;
+  div:nth-child(1) {
+    animation-delay: -0.036s;
+    &::after {
+      @include dot($top, $top);
+    }
+  }
+  &.sm div:nth-child(1):after {
+    @include dot(toSizeSM($top), toSizeSM($top));
+  }
+  &.md div:nth-child(1):after {
+    @include dot(toSizeMD($top), toSizeMD($top));
+  }
 }
-.ldsRoller div:nth-child(1):after {
-  top: 63px;
-  left: 63px;
+
+/* 2 */
+.ldsRoller {
+  $top: 68px;
+  $left: 56px;
+  div:nth-child(2) {
+    animation-delay: -0.072s;
+    &::after {
+      @include dot($top, $left);
+    }
+  }
+  &.sm div:nth-child(2):after {
+    @include dot(toSizeSM($top), toSizeSM($left));
+  }
+  &.md div:nth-child(2):after {
+    @include dot(toSizeMD($top), toSizeMD($left));
+  }
 }
-.ldsRoller div:nth-child(2) {
-  animation-delay: -0.072s;
+
+/* 3 */
+.ldsRoller {
+  $top: 71px;
+  $left: 48px;
+  div:nth-child(3) {
+    animation-delay: -0.108s;
+    &::after {
+      @include dot($top, $left);
+    }
+  }
+  &.sm div:nth-child(3):after {
+    @include dot(toSizeSM($top), toSizeSM($left));
+  }
+  &.md div:nth-child(3):after {
+    @include dot(toSizeMD($top), toSizeMD($left));
+  }
 }
-.ldsRoller div:nth-child(2):after {
-  top: 68px;
-  left: 56px;
+
+/* 4 */
+.ldsRoller {
+  $top: 72px;
+  $left: 40px;
+  div:nth-child(4) {
+    animation-delay: -0.144s;
+    &::after {
+      @include dot($top, $left);
+    }
+  }
+  &.sm div:nth-child(4):after {
+    @include dot(toSizeSM($top), toSizeSM($left));
+  }
+  &.md div:nth-child(4):after {
+    @include dot(toSizeMD($top), toSizeMD($left));
+  }
 }
-.ldsRoller div:nth-child(3) {
-  animation-delay: -0.108s;
+
+/* 5 */
+.ldsRoller {
+  $top: 71px;
+  $left: 32px;
+  div:nth-child(5) {
+    animation-delay: -0.18s;
+    &::after {
+      @include dot($top, $left);
+    }
+  }
+  &.sm div:nth-child(5):after {
+    @include dot(toSizeSM($top), toSizeSM($left));
+  }
+  &.md div:nth-child(5):after {
+    @include dot(toSizeMD($top), toSizeMD($left));
+  }
 }
-.ldsRoller div:nth-child(3):after {
-  top: 71px;
-  left: 48px;
+
+/* 6 */
+.ldsRoller {
+  $top: 68px;
+  $left: 24px;
+  div:nth-child(6) {
+    animation-delay: -0.216s;
+    &::after {
+      @include dot($top, $left);
+    }
+  }
+  &.sm div:nth-child(6):after {
+    @include dot(toSizeSM($top), toSizeSM($left));
+  }
+  &.md div:nth-child(6):after {
+    @include dot(toSizeMD($top), toSizeMD($left));
+  }
 }
-.ldsRoller div:nth-child(4) {
-  animation-delay: -0.144s;
+
+/* 7 */
+.ldsRoller {
+  $top: 63px;
+  $left: 17px;
+  div:nth-child(7) {
+    animation-delay: -0.252s;
+    &::after {
+      @include dot($top, $left);
+    }
+  }
+  &.sm div:nth-child(7):after {
+    @include dot(toSizeSM($top), toSizeSM($left));
+  }
+  &.md div:nth-child(7):after {
+    @include dot(toSizeMD($top), toSizeMD($left));
+  }
 }
-.ldsRoller div:nth-child(4):after {
-  top: 72px;
-  left: 40px;
+
+/* 8 */
+.ldsRoller {
+  $top: 56px;
+  $left: 12px;
+  div:nth-child(8) {
+    animation-delay: -0.288s;
+    &::after {
+      @include dot($top, $left);
+    }
+  }
+  &.sm div:nth-child(8):after {
+    @include dot(toSizeSM($top), toSizeSM($left));
+  }
+  &.md div:nth-child(8):after {
+    @include dot(toSizeMD($top), toSizeMD($left));
+  }
 }
-.ldsRoller div:nth-child(5) {
-  animation-delay: -0.18s;
-}
-.ldsRoller div:nth-child(5):after {
-  top: 71px;
-  left: 32px;
-}
-.ldsRoller div:nth-child(6) {
-  animation-delay: -0.216s;
-}
-.ldsRoller div:nth-child(6):after {
-  top: 68px;
-  left: 24px;
-}
-.ldsRoller div:nth-child(7) {
-  animation-delay: -0.252s;
-}
-.ldsRoller div:nth-child(7):after {
-  top: 63px;
-  left: 17px;
-}
-.ldsRoller div:nth-child(8) {
-  animation-delay: -0.288s;
-}
-.ldsRoller div:nth-child(8):after {
-  top: 56px;
-  left: 12px;
-}
+
 @keyframes ldsRoller {
   0% {
     transform: rotate(0deg);

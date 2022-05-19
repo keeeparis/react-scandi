@@ -1,8 +1,13 @@
 import React, { PureComponent } from 'react'
 
-export class Error extends PureComponent {
+interface Props {
+  msg: string
+}
+
+export class Error extends PureComponent<Props, unknown> {
   render() {
-    return <div>Something went wrong. Try connecting a little bit later.</div>
+    const { msg } = this.props
+    return <div>{msg}. Try refreshing the page!</div>
   }
 }
 

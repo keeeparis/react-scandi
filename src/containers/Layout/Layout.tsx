@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { Outlet } from 'react-router-dom'
 import { RootState } from '../../redux/store/store'
 import Navigation from '../Navigation'
+import { AddGlobalStyles } from './AddGlobalStyles'
 import styles from './Layout.module.scss'
 import { StateProps } from './types'
 
@@ -12,18 +13,20 @@ export class Layout extends PureComponent<StateProps, unknown> {
     const { isModalActive } = this.props
 
     return (
-      <div
-        className={cn(styles.Container, {
-          [styles.modalActive]: isModalActive,
-        })}
-      >
-        <Navigation />
-        <div className={styles.Wrapper}>
-          <div className={styles.Inner}>
-            <Outlet />
+      <AddGlobalStyles isModalActive={isModalActive}>
+        <div
+          className={cn(styles.Container, {
+            [styles.modalActive]: isModalActive,
+          })}
+        >
+          <Navigation />
+          <div className={styles.Wrapper}>
+            <div className={styles.Inner}>
+              <Outlet />
+            </div>
           </div>
         </div>
-      </div>
+      </AddGlobalStyles>
     )
   }
 }

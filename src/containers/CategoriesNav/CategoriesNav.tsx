@@ -1,7 +1,10 @@
+/* eslint-disable react/no-array-index-key */
 import cn from 'classnames'
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+import Error from '../../components/Error'
+import Spinner from '../../components/Spinner'
 import {
   fetchCategories,
   updateCurrentCategory,
@@ -11,6 +14,8 @@ import { Category } from '../../redux/types'
 import KeyboardEvent from '../../utils/KeyboardEvent'
 import styles from './CategoryNav.module.scss'
 import { DispatchProps, Props, StateProps } from './types'
+
+const SUPPOSED_NUMBER_OF_CATEGORIES = 3
 
 export class CategoriesNav extends PureComponent<Props, unknown> {
   componentDidMount() {
@@ -41,25 +46,43 @@ export class CategoriesNav extends PureComponent<Props, unknown> {
   }
 
   render() {
-    const { categories, currentCategory } = this.props
+    const { categories, currentCategory, status } = this.props
+
+    const isSuccessDiv =
+      status === 'success' &&
+      categories.map((category) => (
+        <Link to="/" key={category.name}>
+          <div
+            className={cn(styles.CategoryItem, {
+              [styles.active]: category.name === currentCategory.name,
+            })}
+            onClick={this.handleClickOnCategory.bind(this, category)}
+            onKeyDown={this.handleKeyDownOnCategory.bind(this, category)}
+            role="menuitem"
+            tabIndex={0}
+          >
+            {category.name}
+          </div>
+        </Link>
+      ))
+
+    const isPendingDiv =
+      status === 'pending' &&
+      Array.from(Array(SUPPOSED_NUMBER_OF_CATEGORIES)).map((_e, i) => (
+        <div className={styles.CategoryItem} key={i}>
+          <Spinner size="md" />
+        </div>
+      ))
+
+    const isErrorDiv = status === 'failed' && (
+      <Error msg="Unable to fetch categories" />
+    )
 
     return (
       <>
-        {categories.map((category) => (
-          <Link to="/" key={category.name}>
-            <div
-              className={cn(styles.CategoryItem, {
-                [styles.active]: category.name === currentCategory.name,
-              })}
-              onClick={this.handleClickOnCategory.bind(this, category)}
-              onKeyDown={this.handleKeyDownOnCategory.bind(this, category)}
-              role="menuitem"
-              tabIndex={0}
-            >
-              {category.name}
-            </div>
-          </Link>
-        ))}
+        {isSuccessDiv}
+        {isPendingDiv}
+        {isErrorDiv}
       </>
     )
   }
@@ -68,6 +91,7 @@ export class CategoriesNav extends PureComponent<Props, unknown> {
 export const mapStateToProps = (state: RootState) => ({
   categories: state.categories.categories,
   currentCategory: state.categories.current_category,
+  status: state.categories.status,
 })
 
 export const mapDispatchToProps = (dispatch: AppDispatch) => ({

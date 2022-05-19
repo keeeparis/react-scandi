@@ -3,7 +3,6 @@
 .Container {
   cursor: pointer;
   position: relative;
-  // background-color: aquamarine;
   user-select: none;
   font-size: 18px;
   font-weight: 500;
@@ -30,7 +29,6 @@
 
 .DefaultValue {
   cursor: pointer;
-  padding-right: 20px;
   transition: all 0.2s ease;
   padding: 0 25px 0px 20px;
   @include mixins.navHeight;

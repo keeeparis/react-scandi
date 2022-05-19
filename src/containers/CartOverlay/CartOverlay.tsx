@@ -67,7 +67,7 @@ class CartOverlay extends PureComponent<Props, unknown> {
             </div>
           </>
         ) : (
-          <div>No Items In Cart. Add One!</div>
+          <div className={styles.NoItems}>No items in a cart.</div>
         )}
       </div>
     )

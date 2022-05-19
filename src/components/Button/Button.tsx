@@ -1,13 +1,13 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { PureComponent, ReactNode } from 'react'
+import React, { ButtonHTMLAttributes, PureComponent, ReactNode } from 'react'
 import cn from 'classnames'
 import styles from './Button.module.scss'
 
-interface ButtonProps {
-  children: ReactNode
-  onClick: () => void
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  // children: ReactNode
+  // onClick: () => void
   fill?: boolean
-  disabled?: boolean
+  // disabled?: boolean
 }
 
 export class Button extends PureComponent<ButtonProps, unknown> {

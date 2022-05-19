@@ -89,11 +89,22 @@ export class Product extends PureComponent<Props, OwnState> {
     const isButtonDisabled =
       product?.attributes.length !== Object.keys(selectedAttributes).length
 
+    const isPendingDiv = status === 'pending' && <Spinner />
+    const isErrorDiv = status === 'failed' && (
+      <Error msg="Unable to fetch product" />
+    )
+
+    const isSuccessAndProduct = status === 'success' && product
+    const isSuccessAndNull = status === 'success' && !product && (
+      <div>Product does not exists.</div>
+    )
+
     return (
       <div className={styles.Wrap}>
-        {status === 'pending' && <Spinner />}
-        {status === 'failed' && <Error />}
-        {status === 'success' && product && (
+        {isPendingDiv}
+        {isErrorDiv}
+        {isSuccessAndNull}
+        {isSuccessAndProduct && (
           <div className={styles.Container}>
             {/* Images */}
             <div className={styles.Images}>

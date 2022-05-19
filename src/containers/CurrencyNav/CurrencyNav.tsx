@@ -2,6 +2,7 @@ import cn from 'classnames'
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import ClickOutside from '../../components/ClickOutside'
+import Spinner from '../../components/Spinner'
 import {
   fetchCurrencies,
   updateCurrentCurrency,
@@ -67,45 +68,57 @@ export class CurrencyNav extends PureComponent<Props, CurrencyNavState> {
   }
 
   render() {
-    const { currencies, currentCurrency } = this.props
+    const { currencies, currentCurrency, status } = this.props
     const { isOptionsVisible } = this.state
+
+    const isPendingDiv = status === 'pending' && (
+      <div className={styles.DefaultValue}>
+        <Spinner size="sm" />
+      </div>
+    )
 
     return (
       <ClickOutside callback={this.closeOptions}>
-        <div
-          className={cn(styles.Container, {
-            [styles.rotate]: isOptionsVisible,
-          })}
-        >
+        {isPendingDiv}
+        {status === 'success' && (
           <div
-            className={styles.DefaultValue}
-            onClick={this.handleClickOnDefaultValue.bind(this)}
-            onKeyDown={this.handleKeyDownOnDefaultValue.bind(this)}
-            role="menuitem"
-            tabIndex={0}
+            className={cn(styles.Container, {
+              [styles.rotate]: isOptionsVisible,
+            })}
           >
-            {currentCurrency.symbol}
-          </div>
+            <div
+              className={styles.DefaultValue}
+              onClick={this.handleClickOnDefaultValue.bind(this)}
+              onKeyDown={this.handleKeyDownOnDefaultValue.bind(this)}
+              role="menuitem"
+              tabIndex={0}
+            >
+              {currentCurrency.symbol}
+            </div>
 
-          {isOptionsVisible && (
-            <ul className={styles.Ul}>
-              {currencies.map((currency) => (
-                <li
-                  key={currency.label}
-                  className={cn(styles.Li, {
-                    [styles.active]: currency.label === currentCurrency.label,
-                  })}
-                  onClick={this.handleClickOnCurrency.bind(this, currency)}
-                  onKeyDown={this.handleKeyDownOnCurrency.bind(this, currency)}
-                  role="menuitem"
-                  tabIndex={0}
-                >
-                  {currency.symbol} {currency.label}
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
+            {isOptionsVisible && (
+              <ul className={styles.Ul}>
+                {currencies.map((currency) => (
+                  <li
+                    key={currency.label}
+                    className={cn(styles.Li, {
+                      [styles.active]: currency.label === currentCurrency.label,
+                    })}
+                    onClick={this.handleClickOnCurrency.bind(this, currency)}
+                    onKeyDown={this.handleKeyDownOnCurrency.bind(
+                      this,
+                      currency
+                    )}
+                    role="menuitem"
+                    tabIndex={0}
+                  >
+                    {currency.symbol} {currency.label}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        )}
       </ClickOutside>
     )
   }
@@ -114,6 +127,7 @@ export class CurrencyNav extends PureComponent<Props, CurrencyNavState> {
 export const mapStateToProps = (state: RootState) => ({
   currencies: state.currency.currencies,
   currentCurrency: state.currency.currentCurrency,
+  status: state.currency.status,
 })
 
 export const mapDispatchToProps = (dispatch: AppDispatch) => ({

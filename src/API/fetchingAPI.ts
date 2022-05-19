@@ -1,4 +1,4 @@
-import { client, Field, Query } from '@tilework/opus'
+import { client, DeepReadonlyObject, Field, Query } from '@tilework/opus'
 import {
   AttributeKeys,
   AttributeSetKeys,
@@ -8,6 +8,7 @@ import {
   CurrencyKeys,
   ProductKeys,
   ProductsType,
+  Product,
 } from '../redux/types'
 
 /**
@@ -135,12 +136,13 @@ class FetchingAPI {
   }
 
   /**
-   * Get product by Id from API.
+   * Get product by id from API.
    */
   async fetchProductById(id: string) {
     const query = this.#createProductQuery(id)
 
-    const { product } = await client.post(query)
+    const { product }: { product: DeepReadonlyObject<Product> } =
+      await client.post(query)
     return product
   }
 }

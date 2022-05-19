@@ -40,6 +40,6 @@ export const productsSlice = createSlice({
       }),
 })
 
-// export const { increment } = productsSlice.actions
+// export const {} = productsSlice.actions
 
 export default productsSlice.reducer

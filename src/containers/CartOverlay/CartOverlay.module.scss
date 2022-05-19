@@ -3,7 +3,6 @@
   user-select: none;
   width: 350px;
   max-height: 65vh;
-  // min-height: 450px;
   top: calc(100% + 2px); //border-width
   right: 0;
   background-color: white;
@@ -62,4 +61,12 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
+}
+
+.NoItems {
+  font-size: 16px;
+  font-weight: 400;
+  // text-transform: lowercase;
+  text-align: center;
+  padding: 20px;
 }
