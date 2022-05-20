@@ -1,14 +1,15 @@
-import React, { PureComponent, ReactNode } from 'react'
+import React, { PropsWithChildren, PureComponent } from 'react'
 import styles from './CartNav.module.scss'
 
 interface ContainerProps {
-  children?: ReactNode
   toggleCartOverlay: () => void
   toggleKeyDownOnCartOverlay: (e: React.KeyboardEvent<HTMLDivElement>) => void
   amountOfItemsInCart: number
 }
 
-export class Container extends PureComponent<ContainerProps> {
+export class Container extends PureComponent<
+  PropsWithChildren<ContainerProps>
+> {
   render() {
     const {
       children,
@@ -16,6 +17,10 @@ export class Container extends PureComponent<ContainerProps> {
       toggleKeyDownOnCartOverlay,
       amountOfItemsInCart,
     } = this.props
+
+    const numberOfItems = amountOfItemsInCart ? (
+      <div className={styles.AmountInCart}>{amountOfItemsInCart}</div>
+    ) : null
 
     return (
       <div className={styles.Container}>
@@ -27,9 +32,7 @@ export class Container extends PureComponent<ContainerProps> {
           aria-label="cart"
           tabIndex={0}
         >
-          {amountOfItemsInCart ? (
-            <div className={styles.AmountInCart}>{amountOfItemsInCart}</div>
-          ) : null}
+          {numberOfItems}
         </div>
         {children}
       </div>

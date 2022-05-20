@@ -15,32 +15,32 @@ export class CartNav extends PureComponent<Props, CartNavState> {
     this.state = { isCartOverlay: false }
   }
 
-  toggleCartOverlay = () => {
+  toggleCartOverlayAndModal = () => {
     const { toggleModal } = this.props
     toggleModal()
-    this.toggleVisibility()
+    this.toggleCartOverlay()
   }
 
   toggleKeyDownOnCartOverlay = (e: React.KeyboardEvent<HTMLDivElement>) => {
     const isSpaceOrEnterPressed = KeyboardEvent.isSpaceOrEnterPressed(e)
     if (isSpaceOrEnterPressed) {
-      this.toggleCartOverlay()
+      this.toggleCartOverlayAndModal()
     }
   }
 
-  toggleVisibility = () => {
+  toggleCartOverlay = () => {
     this.setState(({ isCartOverlay }) => ({
       isCartOverlay: !isCartOverlay,
     }))
   }
 
-  closeCartOverlay = () => {
+  closeCartOverlayAndModal = () => {
     const { closeModal } = this.props
     closeModal()
-    this.closeVisibility()
+    this.closeCartOverlay()
   }
 
-  closeVisibility = () => {
+  closeCartOverlay = () => {
     this.setState({ isCartOverlay: false })
   }
 
@@ -49,18 +49,18 @@ export class CartNav extends PureComponent<Props, CartNavState> {
     const { amountOfItemsInCart } = this.props
 
     return isCartOverlay ? (
-      <ClickOutside callback={this.closeCartOverlay}>
+      <ClickOutside callback={this.closeCartOverlayAndModal}>
         <Container
-          toggleCartOverlay={this.toggleCartOverlay}
+          toggleCartOverlay={this.toggleCartOverlayAndModal}
           toggleKeyDownOnCartOverlay={this.toggleKeyDownOnCartOverlay}
           amountOfItemsInCart={amountOfItemsInCart}
         >
-          <CartOverlay closeCartOverlay={this.closeCartOverlay} />
+          <CartOverlay closeCartOverlay={this.closeCartOverlayAndModal} />
         </Container>
       </ClickOutside>
     ) : (
       <Container
-        toggleCartOverlay={this.toggleCartOverlay}
+        toggleCartOverlay={this.toggleCartOverlayAndModal}
         toggleKeyDownOnCartOverlay={this.toggleKeyDownOnCartOverlay}
         amountOfItemsInCart={amountOfItemsInCart}
       />

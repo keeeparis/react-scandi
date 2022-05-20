@@ -2,6 +2,7 @@ import cn from 'classnames'
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import ClickOutside from '../../components/ClickOutside'
+import Error from '../../components/Error'
 import Spinner from '../../components/Spinner'
 import {
   fetchCurrencies,
@@ -12,6 +13,7 @@ import { Currency } from '../../redux/types'
 import KeyboardEvent from '../../utils/KeyboardEvent'
 import styles from './CurrencyNav.module.scss'
 import { CurrencyNavState, DispatchProps, Props, StateProps } from './types'
+import { stylesActive, stylesRotate } from './util'
 
 export class CurrencyNav extends PureComponent<Props, CurrencyNavState> {
   constructor(props: Props) {
@@ -24,7 +26,7 @@ export class CurrencyNav extends PureComponent<Props, CurrencyNavState> {
     fetchCurrencyList()
   }
 
-  handleClickOnCurrency(newCurrency: Currency) {
+  handleClickOnValue = (newCurrency: Currency) => () => {
     const { updateCurrency, currentCurrency } = this.props
     if (newCurrency.label !== currentCurrency.label) {
       updateCurrency(newCurrency)
@@ -32,36 +34,34 @@ export class CurrencyNav extends PureComponent<Props, CurrencyNavState> {
     }
   }
 
-  handleKeyDownOnCurrency(
-    newCurrency: Currency,
-    e: React.KeyboardEvent<HTMLLIElement>
-  ) {
-    const { updateCurrency, currentCurrency } = this.props
-    const isDifferentCategory = currentCurrency.label !== newCurrency.label
-    const isSpaceOrEnterPressed = KeyboardEvent.isSpaceOrEnterPressed(e)
+  handleKeyDownOnValue =
+    (newCurrency: Currency) => (e: React.KeyboardEvent<HTMLLIElement>) => {
+      const { updateCurrency, currentCurrency } = this.props
+      const isDifferentCategory = currentCurrency.label !== newCurrency.label
+      const isSpaceOrEnterPressed = KeyboardEvent.isSpaceOrEnterPressed(e)
 
-    if (isDifferentCategory && isSpaceOrEnterPressed) {
-      updateCurrency(newCurrency)
-      this.closeOptions()
+      if (isDifferentCategory && isSpaceOrEnterPressed) {
+        updateCurrency(newCurrency)
+        this.closeOptions()
+      }
     }
-  }
 
   handleKeyDownOnDefaultValue = (e: React.KeyboardEvent<HTMLDivElement>) => {
     const isSpaceOrEnterPressed = KeyboardEvent.isSpaceOrEnterPressed(e)
     if (isSpaceOrEnterPressed) {
-      this.toggleOptionsVisibility()
+      this.toggleOptions()
     }
   }
 
-  handleClickOnDefaultValue() {
-    this.toggleOptionsVisibility()
+  handleClickOnDefaultValue = () => {
+    this.toggleOptions()
   }
 
   closeOptions = () => {
     this.setState({ isOptionsVisible: false })
   }
 
-  toggleOptionsVisibility() {
+  toggleOptions = () => {
     this.setState(({ isOptionsVisible }) => ({
       isOptionsVisible: !isOptionsVisible,
     }))
@@ -77,19 +77,22 @@ export class CurrencyNav extends PureComponent<Props, CurrencyNavState> {
       </div>
     )
 
+    const isErrorDiv = status === 'failed' && (
+      <Error msg="Unable t0 fetch currencies" />
+    )
+
+    const isSuccess = status === 'success'
+
     return (
       <ClickOutside callback={this.closeOptions}>
         {isPendingDiv}
-        {status === 'success' && (
-          <div
-            className={cn(styles.Container, {
-              [styles.rotate]: isOptionsVisible,
-            })}
-          >
+        {isErrorDiv}
+        {isSuccess && (
+          <div className={cn(styles.Container, stylesRotate(isOptionsVisible))}>
             <div
               className={styles.DefaultValue}
-              onClick={this.handleClickOnDefaultValue.bind(this)}
-              onKeyDown={this.handleKeyDownOnDefaultValue.bind(this)}
+              onClick={this.handleClickOnDefaultValue}
+              onKeyDown={this.handleKeyDownOnDefaultValue}
               role="menuitem"
               tabIndex={0}
             >
@@ -101,14 +104,12 @@ export class CurrencyNav extends PureComponent<Props, CurrencyNavState> {
                 {currencies.map((currency) => (
                   <li
                     key={currency.label}
-                    className={cn(styles.Li, {
-                      [styles.active]: currency.label === currentCurrency.label,
-                    })}
-                    onClick={this.handleClickOnCurrency.bind(this, currency)}
-                    onKeyDown={this.handleKeyDownOnCurrency.bind(
-                      this,
-                      currency
+                    className={cn(
+                      styles.Li,
+                      stylesActive(currency, currentCurrency)
                     )}
+                    onClick={this.handleClickOnValue(currency)}
+                    onKeyDown={this.handleKeyDownOnValue(currency)}
                     role="menuitem"
                     tabIndex={0}
                   >

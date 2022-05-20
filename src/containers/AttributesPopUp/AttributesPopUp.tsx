@@ -1,4 +1,3 @@
-/* eslint-disable no-nested-ternary */
 import React, { PureComponent } from 'react'
 import Button from '../../components/Button'
 import AttributeItem from '../AttributeItem'
@@ -19,9 +18,10 @@ export class AttributesPopUp extends PureComponent<
     return (
       <div className={styles.PopUPInner}>
         <form onSubmit={handleSubmitForm}>
+          {/* Product Name */}
           <div className={styles.Brand}>{product.brand}</div>
           <div className={styles.Name}>{product.name}</div>
-
+          {/* Attributes to Select */}
           {product.attributes.map((attrSet) => (
             <AttributeItem
               attrSet={attrSet}
@@ -32,7 +32,7 @@ export class AttributesPopUp extends PureComponent<
               size="lg"
             />
           ))}
-
+          {/* Submit Button */}
           <Button type="submit" fill disabled={isButtonDisabled}>
             Add To Cart
           </Button>

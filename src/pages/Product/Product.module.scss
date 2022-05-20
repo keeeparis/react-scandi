@@ -8,43 +8,6 @@
   grid-template-columns: 800px 300px;
 }
 
-.Images {
-  display: grid;
-  grid-template-columns: 80px 600px;
-  column-gap: 30px;
-}
-
-.AllImages {
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
-}
-
-.ImageWrapper {
-  width: 80px;
-  height: 80px;
-  cursor: pointer;
-
-  img {
-    width: inherit;
-    height: inherit;
-    object-fit: cover;
-  }
-}
-
-.SelectedImageWrapper {
-  width: 600px;
-  height: 500px;
-  position: sticky;
-  top: 86px;
-
-  img {
-    width: inherit;
-    height: inherit;
-    object-fit: contain;
-  }
-}
-
 .Data {
   display: flex;
   flex-direction: column;

@@ -1,11 +1,9 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable react/no-danger */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import Button from '../../components/Button'
 import Error from '../../components/Error'
+import ImagesProduct from '../../components/ImagesProduct'
 import PriceProduct from '../../components/PriceProduct'
 import Spinner from '../../components/Spinner'
 import AttributeItem from '../../containers/AttributeItem'
@@ -31,17 +29,31 @@ export class Product extends PureComponent<Props, OwnState> {
     const {
       fetchProductDispatch,
       router: { params },
+      currentCurrency,
     } = this.props
 
-    fetchProductDispatch(params.id)
+    /* Fetch Product Info only! after currencies has been fetched. */
+    if (currentCurrency.symbol) {
+      fetchProductDispatch(params.id)
+    }
   }
 
-  componentDidUpdate() {
-    const { product } = this.props
+  componentDidUpdate(prev: Props) {
+    const {
+      product,
+      fetchProductDispatch,
+      router: { params },
+    } = this.props
     const { currentPicture } = this.state
 
     if (product && !currentPicture) {
       this.setState({ currentPicture: product.gallery[0] })
+    }
+
+    /* If previous props.currency was empty string (has not been fetched)
+    fetch Product Info, otherwise we changing currencies and so do nothing. */
+    if (!prev.currentCurrency.symbol) {
+      fetchProductDispatch(params.id)
     }
   }
 
@@ -107,30 +119,18 @@ export class Product extends PureComponent<Props, OwnState> {
         {isSuccessAndProduct && (
           <div className={styles.Container}>
             {/* Images */}
-            <div className={styles.Images}>
-              <div className={styles.AllImages}>
-                {product.gallery.map((image) => (
-                  <div
-                    className={styles.ImageWrapper}
-                    key={image}
-                    onClick={this.handleImageChange(image)}
-                  >
-                    <img src={image} alt={image} />
-                  </div>
-                ))}
-              </div>
-              <div className={styles.SelectedImage}>
-                <div className={styles.SelectedImageWrapper}>
-                  <img src={currentPicture} alt={currentPicture} />
-                </div>
-              </div>
-            </div>
+            <ImagesProduct
+              images={product.gallery}
+              handleChange={this.handleImageChange}
+              currentPicture={currentPicture}
+            />
 
             {/* Data */}
             <div className={styles.Data}>
+              {/* Name */}
               <div className={styles.Brand}>{product.brand}</div>
               <div className={styles.Title}>{product.name}</div>
-
+              {/* Attributes */}
               <div className={styles.Attributes}>
                 {product.attributes &&
                   product.attributes.map((el) => (
@@ -144,7 +144,7 @@ export class Product extends PureComponent<Props, OwnState> {
                     />
                   ))}
               </div>
-
+              {/* Price */}
               <div className={styles.Price}>
                 <div className={styles.PriceName}>Price:</div>
                 <div>
@@ -159,7 +159,7 @@ export class Product extends PureComponent<Props, OwnState> {
               >
                 ADD TO CART
               </Button>
-
+              {/* Description */}
               <div
                 className={styles.Description}
                 dangerouslySetInnerHTML={{ __html: product.description }}
@@ -175,6 +175,7 @@ export class Product extends PureComponent<Props, OwnState> {
 export const mapStateToProps = (state: RootState) => ({
   product: state.product.item,
   status: state.product.status,
+  currentCurrency: state.currency.currentCurrency,
 })
 
 export const mapDispatchToProps = (dispatch: AppDispatch) => ({

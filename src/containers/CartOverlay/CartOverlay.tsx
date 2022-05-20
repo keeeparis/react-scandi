@@ -10,8 +10,9 @@ import { RootState } from '../../redux/store/store'
 import CartOverlayItem from '../CartOverlayItem/CartOverlayItem'
 import styles from './CartOverlay.module.scss'
 import { Props, StateProps } from './types'
+import { idWithAttrs } from './util'
 
-class CartOverlay extends PureComponent<Props, unknown> {
+class CartOverlay extends PureComponent<Props> {
   render() {
     const {
       items,
@@ -28,14 +29,15 @@ class CartOverlay extends PureComponent<Props, unknown> {
         {items.length ? (
           <>
             <div className={styles.Data}>
+              {/* Title */}
               <div className={styles.Title}>
                 My bag, <span>{amountOfItemsInCart} items</span>
               </div>
-
+              {/* Items */}
               <div className={styles.Wrapper}>
                 {items.map(({ item, count }) => (
                   <CartOverlayItem
-                    key={`${item.id}${Object.values(item.selectedAttributes)}`}
+                    key={idWithAttrs(item)}
                     item={item}
                     count={count}
                     currentCurrency={currentCurrency}
@@ -43,7 +45,7 @@ class CartOverlay extends PureComponent<Props, unknown> {
                   />
                 ))}
               </div>
-
+              {/* Total Price */}
               <div className={styles.Total}>
                 <span>Total:</span>
 
@@ -53,7 +55,7 @@ class CartOverlay extends PureComponent<Props, unknown> {
                 </span>
               </div>
             </div>
-
+            {/* Actions -> Cart/Checkout */}
             <div className={styles.Actions}>
               <Link to="/cart">
                 <Button onClick={closeCartOverlay}>View Bag</Button>

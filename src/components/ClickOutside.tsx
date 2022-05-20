@@ -1,16 +1,14 @@
-import React, { Component } from 'react'
+import React, { Component, PropsWithChildren } from 'react'
 
 interface ClickOutsideProps {
   callback: () => void
-  children: React.ReactNode
 }
 
 /**
  * Component that activates callback if you click outside of it.
  */
-
 export default class ClickOutside extends Component<
-  ClickOutsideProps,
+  PropsWithChildren<ClickOutsideProps>,
   unknown
 > {
   wrapperRef: React.RefObject<HTMLDivElement>

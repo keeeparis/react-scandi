@@ -95,6 +95,10 @@ class ProductItem extends PureComponent<Props, ProductItemState> {
     const { product } = this.props
     const { isPopUp, selectedAttributes } = this.state
 
+    const outOfStockCover = !product.inStock && (
+      <div className={styles.OufOfStock}>out of stock</div>
+    )
+
     return (
       <article className={styles.Container}>
         <Link to={`/product/${product.id}`}>
@@ -106,9 +110,7 @@ class ProductItem extends PureComponent<Props, ProductItemState> {
             {/* Image */}
             <div className={styles.ImageWrapper}>
               <img src={product.gallery[0]} alt={product.name} />
-              {!product.inStock && (
-                <div className={styles.OufOfStock}>out of stock</div>
-              )}
+              {outOfStockCover}
             </div>
 
             {/* Name */}

@@ -4,32 +4,38 @@ import cn from 'classnames'
 import { Attribute, AttributeSet } from '../../redux/types'
 import styles from './AttributeItem.module.scss'
 
-/** Function returns style class that depends on attribute type */
+export const styleHelper = (value: string) => ({
+  [styles.sm]: value === 'sm',
+  [styles.lg]: value === 'lg',
+})
+
+/** Returns styles that depend on attribute type */
 export const stylesCn = (
   attributeSet: DeepReadonlyObject<AttributeSet>,
   sizeValue: string
 ) =>
   attributeSet.type === 'swatch'
-    ? cn(
-        styles.Color,
-        { [styles.sm]: sizeValue === 'sm' },
-        { [styles.lg]: sizeValue === 'lg' }
-      )
+    ? cn(styles.Color, styleHelper(sizeValue))
     : attributeSet.name === 'Size'
-    ? cn(
-        styles.Size,
-        { [styles.sm]: sizeValue === 'sm' },
-        { [styles.lg]: sizeValue === 'lg' }
-      )
+    ? cn(styles.Size, styleHelper(sizeValue))
     : styles.Text
 
-/** Function returns label that depends on attribute type */
+/** Returns label that depends on attribute type */
 export const label = (
   attributeSet: DeepReadonlyObject<AttributeSet>,
   attribute: DeepReadonlyObject<Attribute>
 ) =>
-  attributeSet.type !== 'swatch'
-    ? attributeSet.name === 'Size'
-      ? attribute.value
-      : attribute.displayValue
-    : null
+  attributeSet.type === 'swatch'
+    ? null
+    : attributeSet.name === 'Size'
+    ? attribute.value
+    : attribute.displayValue
+
+/** Returns label styles */
+export const labelStyles = (
+  attributeSet: DeepReadonlyObject<AttributeSet>,
+  attribute: DeepReadonlyObject<Attribute>
+) =>
+  attributeSet.type === 'swatch'
+    ? { backgroundColor: attribute.value }
+    : undefined

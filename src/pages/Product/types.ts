@@ -13,7 +13,7 @@ export type OwnProps = {
 
 export type OwnState = {
   selectedAttributes: SelectedAttributesType
-  currentPicture?: string
+  currentPicture: string
 }
 
 export type StateProps = ReturnType<typeof mapStateToProps>

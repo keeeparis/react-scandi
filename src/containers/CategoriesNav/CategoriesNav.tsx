@@ -48,14 +48,16 @@ export class CategoriesNav extends PureComponent<Props, unknown> {
   render() {
     const { categories, currentCategory, status } = this.props
 
+    const stylesActive = (category: Category) => ({
+      [styles.active]: category.name === currentCategory.name,
+    })
+
     const isSuccessDiv =
       status === 'success' &&
       categories.map((category) => (
         <Link to="/" key={category.name}>
           <div
-            className={cn(styles.CategoryItem, {
-              [styles.active]: category.name === currentCategory.name,
-            })}
+            className={cn(styles.CategoryItem, stylesActive(category))}
             onClick={this.handleClickOnCategory.bind(this, category)}
             onKeyDown={this.handleKeyDownOnCategory.bind(this, category)}
             role="menuitem"

@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, PureComponent, ReactNode } from 'react'
+import React, { PropsWithChildren, PureComponent } from 'react'
 import GlobalStyles from '../../styles/global'
 
 interface OwnProps {
@@ -12,10 +12,10 @@ export class AddGlobalStyles extends PureComponent<
     const { children, isModalActive } = this.props
 
     return (
-      <div>
+      <>
         <GlobalStyles isModal={isModalActive} />
         {children}
-      </div>
+      </>
     )
   }
 }

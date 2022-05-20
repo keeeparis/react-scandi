@@ -5,7 +5,7 @@ import { v4 as uuid } from 'uuid'
 import { AttributeSet } from '../../redux/types'
 import { AttributesPopUpProps } from '../AttributesPopUp/types'
 import styles from './AttributeItem.module.scss'
-import { label, stylesCn } from './utils'
+import { label, labelStyles, styleHelper, stylesCn } from './utils'
 
 interface AttributeItemProps {
   attrSet: DeepReadonlyObject<AttributeSet>
@@ -21,8 +21,9 @@ export class AttributeItem extends PureComponent<AttributeItemProps, unknown> {
   constructor(props: AttributeItemProps) {
     super(props)
     /* When we render all items attributes in cartOverlay,
-    we need to add unique id for each input, because otherwise
-    inputs with same name of different items conflict with each other. */
+    we need to add unique id for each input, otherwise inputs 
+    with same name of different items (e.g. Size) conflict 
+    with each other. */
     this.uniqueId = uuid()
   }
 
@@ -32,9 +33,7 @@ export class AttributeItem extends PureComponent<AttributeItemProps, unknown> {
 
     return (
       <div>
-        <div
-          className={cn(styles.AttributeName, { [styles.lg]: size === 'lg' })}
-        >
+        <div className={cn(styles.AttributeName, styleHelper(size))}>
           {attrSet.name}:
         </div>
 
@@ -57,11 +56,7 @@ export class AttributeItem extends PureComponent<AttributeItemProps, unknown> {
 
               <label
                 htmlFor={`${attribute.id}${attrSet.name}`}
-                style={
-                  attrSet.type === 'swatch'
-                    ? { backgroundColor: attribute.value }
-                    : undefined
-                }
+                style={labelStyles(attrSet, attribute)}
               >
                 <span>{label(attrSet, attribute)}</span>
               </label>
