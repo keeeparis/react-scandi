@@ -1,7 +1,7 @@
 import { Currency, ProductInCart } from '../../redux/types'
-import { mapDispatchToProps } from './CartOverlayItem'
+import { mapDispatchToProps } from './CartItem'
 
-export interface CartOverlayItemProps {
+export interface CartItemProps {
   item: ProductInCart
   count: number
   currentCurrency: Currency
@@ -10,4 +10,4 @@ export interface CartOverlayItemProps {
 
 export type DispatchProps = ReturnType<typeof mapDispatchToProps>
 
-export type Props = DispatchProps & CartOverlayItemProps
+export type Props = DispatchProps & CartItemProps

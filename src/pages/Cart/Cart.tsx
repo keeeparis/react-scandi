@@ -3,7 +3,7 @@ import cn from 'classnames'
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import Button from '../../components/Button'
-import CartOverlayItem from '../../containers/CartOverlayItem'
+import CartItem from '../../containers/CartItem'
 import {
   selectAmountOfItemsInCart,
   selectTotalPrice,
@@ -29,7 +29,7 @@ export class Cart extends PureComponent<StateProps, unknown> {
           <>
             <div className={styles.Wrapper}>
               {items.map(({ item, count }) => (
-                <CartOverlayItem
+                <CartItem
                   key={`${item.id}${Object.values(item.selectedAttributes)}`}
                   item={item}
                   count={count}

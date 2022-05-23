@@ -7,20 +7,13 @@ import { decrement, increment } from '../../redux/slices/cartSlice'
 import { AppDispatch, RootState } from '../../redux/store/store'
 import { ProductInCart } from '../../redux/types'
 import { selectPriceInCurrentCurrency } from '../../utils/selectPriceInCurrentCurrency'
+import { stylesFromSize } from '../../utils/stylesFromSize'
 import AttributeItem from '../AttributeItem'
 import Slider from '../Slider'
-import styles from './CartOverlayItem.module.scss'
-import { CartOverlayItemProps, DispatchProps, Props } from './types'
+import styles from './CartItem.module.scss'
+import { CartItemProps, DispatchProps, Props } from './types'
 
-export class CartOverlayItem extends PureComponent<Props, unknown> {
-  classLg = () => {
-    const { size } = this.props
-
-    return {
-      [styles.lg]: size === 'lg',
-    }
-  }
-
+export class CartItem extends PureComponent<Props, unknown> {
   render() {
     const { item, count, currentCurrency, decrementItem, incrementItem, size } =
       this.props
@@ -30,17 +23,17 @@ export class CartOverlayItem extends PureComponent<Props, unknown> {
     const toFixedPrice = totalPrice.toFixed(2)
 
     return (
-      <div className={cn(styles.Inner, this.classLg())}>
+      <div className={cn(styles.Inner, stylesFromSize(size, styles))}>
         <div className={styles.Data}>
           <div className={styles.DataWrapper}>
             {/* Name and Price */}
             <div className={styles.NameWrapper}>
-              <div className={cn(styles.Name, this.classLg())}>
+              <div className={cn(styles.Name, stylesFromSize(size, styles))}>
                 <span>{item.brand}</span>
                 <span>{item.name}</span>
               </div>
 
-              <span className={cn(styles.Price, this.classLg())}>
+              <span className={cn(styles.Price, stylesFromSize(size, styles))}>
                 {price.currency.symbol} {toFixedPrice}
               </span>
             </div>
@@ -61,21 +54,21 @@ export class CartOverlayItem extends PureComponent<Props, unknown> {
           </div>
 
           {/* Plus and Minus Signs */}
-          <div className={cn(styles.Actions, this.classLg())}>
+          <div className={cn(styles.Actions, stylesFromSize(size, styles))}>
             <div
-              className={cn(styles.Plus, this.classLg())}
+              className={cn(styles.Plus, stylesFromSize(size, styles))}
               onClick={incrementItem(item)}
             />
             {count}
             <div
-              className={cn(styles.Minus, this.classLg())}
+              className={cn(styles.Minus, stylesFromSize(size, styles))}
               onClick={decrementItem(item)}
             />
           </div>
         </div>
 
         {/* Image Slider */}
-        <div className={cn(styles.ImageWrapper, this.classLg())}>
+        <div className={cn(styles.ImageWrapper, stylesFromSize(size, styles))}>
           {size === 'lg' ? (
             <Slider images={item.gallery} />
           ) : (
@@ -92,14 +85,9 @@ export const mapDispatchToProps = (dispatch: AppDispatch) => ({
   decrementItem: (item: ProductInCart) => () => dispatch(decrement(item)),
 })
 
-const connector = connect<
-  unknown,
-  DispatchProps,
-  CartOverlayItemProps,
-  RootState
->(
+const connector = connect<unknown, DispatchProps, CartItemProps, RootState>(
   null,
   mapDispatchToProps
-)(CartOverlayItem)
+)(CartItem)
 
 export default connector

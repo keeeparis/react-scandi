@@ -7,7 +7,7 @@ import {
   selectTotalPrice,
 } from '../../redux/selectors'
 import { RootState } from '../../redux/store/store'
-import CartOverlayItem from '../CartOverlayItem/CartOverlayItem'
+import CartItem from '../CartItem/CartItem'
 import styles from './CartOverlay.module.scss'
 import { Props, StateProps } from './types'
 import { idWithAttrs } from './util'
@@ -36,7 +36,7 @@ class CartOverlay extends PureComponent<Props> {
               {/* Items */}
               <div className={styles.Wrapper}>
                 {items.map(({ item, count }) => (
-                  <CartOverlayItem
+                  <CartItem
                     key={idWithAttrs(item)}
                     item={item}
                     count={count}
