@@ -16,7 +16,7 @@ export class App extends PureComponent<Props, unknown> {
     const { fetchProductList, category } = this.props
     /* When we enter index page - current category 
     has not been fetched yet, so we don't fetch products list. 
-    When we enter index page from another page, we fetch
+    When we enter index page from another page, we fetch 
     products list because current category exists 
     after it has been fetched from <CategoriesNav />. */
     if (category.name) {
