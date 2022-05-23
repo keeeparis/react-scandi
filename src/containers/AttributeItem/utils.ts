@@ -2,12 +2,8 @@
 import { DeepReadonlyObject } from '@tilework/opus'
 import cn from 'classnames'
 import { Attribute, AttributeSet } from '../../redux/types'
+import { stylesFromSize } from '../../utils/stylesFromSize'
 import styles from './AttributeItem.module.scss'
-
-export const styleHelper = (value: string) => ({
-  [styles.sm]: value === 'sm',
-  [styles.lg]: value === 'lg',
-})
 
 /** Returns styles that depend on attribute type */
 export const stylesCn = (
@@ -15,9 +11,9 @@ export const stylesCn = (
   sizeValue: string
 ) =>
   attributeSet.type === 'swatch'
-    ? cn(styles.Color, styleHelper(sizeValue))
+    ? cn(styles.Color, stylesFromSize(sizeValue, styles))
     : attributeSet.name === 'Size'
-    ? cn(styles.Size, styleHelper(sizeValue))
+    ? cn(styles.Size, stylesFromSize(sizeValue, styles))
     : styles.Text
 
 /** Returns label that depends on attribute type */

@@ -1,11 +1,13 @@
 import { DeepReadonlyObject } from '@tilework/opus'
-import React, { PureComponent } from 'react'
 import cn from 'classnames'
+import React, { PureComponent } from 'react'
 import { v4 as uuid } from 'uuid'
 import { AttributeSet } from '../../redux/types'
+import { stylesFromSize } from '../../utils/stylesFromSize'
 import { AttributesPopUpProps } from '../AttributesPopUp/types'
 import styles from './AttributeItem.module.scss'
-import { label, labelStyles, styleHelper, stylesCn } from './utils'
+import Label from './Label'
+import { stylesCn } from './utils'
 
 interface AttributeItemProps {
   attrSet: DeepReadonlyObject<AttributeSet>
@@ -33,7 +35,7 @@ export class AttributeItem extends PureComponent<AttributeItemProps, unknown> {
 
     return (
       <div>
-        <div className={cn(styles.AttributeName, styleHelper(size))}>
+        <div className={cn(styles.AttributeName, stylesFromSize(size, styles))}>
           {attrSet.name}:
         </div>
 
@@ -54,12 +56,7 @@ export class AttributeItem extends PureComponent<AttributeItemProps, unknown> {
                 readOnly={readonly}
               />
 
-              <label
-                htmlFor={`${attribute.id}${attrSet.name}`}
-                style={labelStyles(attrSet, attribute)}
-              >
-                <span>{label(attrSet, attribute)}</span>
-              </label>
+              <Label attributeSet={attrSet} attribute={attribute} />
             </div>
           ))}
         </div>
